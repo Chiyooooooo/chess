@@ -1,0 +1,1 @@
+/run/current-system/sw/bin/c++ -fsanitize=address CMakeFiles/chessengine.dir/src/main.cc.o -o chess 
