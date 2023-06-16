@@ -1,5 +1,5 @@
-/home/yanis.belami/afs/epita-ing-assistants-yaka-chess-2025-chess-317/chess-cpp/build/CMakeFiles/chessengine.dir
-/home/yanis.belami/afs/epita-ing-assistants-yaka-chess-2025-chess-317/chess-cpp/build/CMakeFiles/edit_cache.dir
-/home/yanis.belami/afs/epita-ing-assistants-yaka-chess-2025-chess-317/chess-cpp/build/CMakeFiles/rebuild_cache.dir
-/home/yanis.belami/afs/epita-ing-assistants-yaka-chess-2025-chess-317/chess-cpp/build/src/CMakeFiles/edit_cache.dir
-/home/yanis.belami/afs/epita-ing-assistants-yaka-chess-2025-chess-317/chess-cpp/build/src/CMakeFiles/rebuild_cache.dir
+/Users/mac/chess/epita-ing-assistants-yaka-chess-2025-chess-317/chess-cpp/build/CMakeFiles/chessengine.dir
+/Users/mac/chess/epita-ing-assistants-yaka-chess-2025-chess-317/chess-cpp/build/CMakeFiles/edit_cache.dir
+/Users/mac/chess/epita-ing-assistants-yaka-chess-2025-chess-317/chess-cpp/build/CMakeFiles/rebuild_cache.dir
+/Users/mac/chess/epita-ing-assistants-yaka-chess-2025-chess-317/chess-cpp/build/src/CMakeFiles/edit_cache.dir
+/Users/mac/chess/epita-ing-assistants-yaka-chess-2025-chess-317/chess-cpp/build/src/CMakeFiles/rebuild_cache.dir
