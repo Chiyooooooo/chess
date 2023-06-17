@@ -1,121 +1,40 @@
-/*
+#include "move.hh"
+#include "perft.hh"
+
 
 int main()
 {
-    std::cout<<"Hello World";
+    Chessboard board;
 
-    return 0;
-}
-*/
-#include <iostream>
-#include <vector>
+    board.loadFEN("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR");//20
+    //board.loadFEN("rnbq1k1r/pp1Pbppp/2p5/8/2B5/8/PPP1NnPP/RNBQK2R");//44
+    //board.loadFEN("8/2p5/3p4/KP5r/1R3p1k/8/4P1P1/8");//14
 
-enum class Piece {
-    None,
-    Pawn,
-    Rook,
-    Knight,
-    Bishop,
-    Queen,
-    King
-};
 
-enum class Color {
-    None,
-    White,
-    Black
-};
+    // Generate and print the moves for each square on the board
+    for (int square = 0; square < Chessboard::Size * Chessboard::Size; ++square)
+    {
+        std::vector<int> moves;
+        Move::generateMoves(board, square, moves);
 
-class Chessboard {
-public:
-    static const int Size = 8;
-
-    Chessboard() {
-        board_.resize(Size, std::vector<Piece>(Size, Piece::None));
-        color_.resize(Size, std::vector<Color>(Size, Color::None));
-    }
-
-    void setPiece(int row, int col, Piece piece, Color color) {
-        board_[row][col] = piece;
-        color_[row][col] = color;
-    }
-
-void print() const {
-    for (int row = 0; row < Size; ++row) {
-        int emptyCount = 0; // Count of consecutive empty squares
-        for (int col = 0; col < Size; ++col) {
-            Piece piece = board_[row][col];
-            Color color = color_[row][col];
-            char symbol = pieceToSymbol(piece);
-
-            if (symbol != '.') {
-                if (emptyCount > 0) {
-                    std::cout << emptyCount;
-                    emptyCount = 0;
-                }
-
-                if (color == Color::White) {
-                    std::cout << symbol;
-                } else if (color == Color::Black) {
-                    std::cout << (char)(symbol + 32); // Convert to lowercase for black pieces
-                }
-            } else {
-                emptyCount++;
-            }
-
-            if (col == Size - 1 && emptyCount > 0) {
-                std::cout << emptyCount;
-            }
-
-            std::cout << " ";
+        std::cout << "Moves for square " << square << ": ";
+        for (std::vector<int>::iterator it = moves.begin(); it != moves.end(); ++it)
+        {
+            int move = *it;
+            std::cout << move << " ";
         }
         std::cout << std::endl;
     }
-}
-
-
-private:
-    std::vector<std::vector<Piece>> board_;
-    std::vector<std::vector<Color>> color_;
-
-    char pieceToSymbol(Piece piece) const {
-        if (piece == Piece::Pawn) {
-            return 'P';
-        } else if (piece == Piece::Rook) {
-            return 'R';
-        } else if (piece == Piece::Knight) {
-            return 'N';
-        } else if (piece == Piece::Bishop) {
-            return 'B';
-        } else if (piece == Piece::Queen) {
-            return 'Q';
-        } else if (piece == Piece::King) {
-            return 'K';
-        } else {
-            return '.';
-        }
-    }
-};
-
-int main() {
-    Chessboard board;
-
-    // Set up the starting position
-    board.setPiece(0, 0, Piece::Rook, Color::White);
-    board.setPiece(0, 1, Piece::Knight, Color::White);
-    board.setPiece(0, 2, Piece::Bishop, Color::White);
-    board.setPiece(0, 3, Piece::Queen, Color::White);
-    board.setPiece(0, 4, Piece::King, Color::White);
-    board.setPiece(0, 5, Piece::Bishop, Color::White);
-    board.setPiece(0, 6, Piece::Knight, Color::White);
-    board.setPiece(0, 7, Piece::Rook, Color::White);
-
-    for (int col = 0; col < Chessboard::Size; ++col) {
-        board.setPiece(1, col, Piece::Pawn, Color::White);
-    }
-
-    // Print the chessboard
-    board.print();
+    unsigned long long result = perft(board, 1);
+    std::cout << result << std::endl;
 
     return 0;
 }
+
+/*
+int main()
+{
+    std::cout<<"Hello World";
+    return 0;
+}
+*/
