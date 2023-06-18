@@ -154,67 +154,21 @@ bool Chessboard::isValidKnightMove(int fromSquare, int toSquare) const
 
 bool Chessboard::isValidBishopMove(int fromSquare, int toSquare) const
 {
-    // Check if the move is diagonal
     if (std::abs(getRank(toSquare) - getRank(fromSquare)) != std::abs(getFile(toSquare) - getFile(fromSquare)))
         return false;
 
-    // Check if there are any obstructions along the path
     if (!isPathClear(fromSquare, toSquare))
         return false;
 
     return true;
-    /*
-    int rankOffset = (getRank(toSquare) > getRank(fromSquare)) ? 1 : -1;
-    int fileOffset = (getFile(toSquare) > getFile(fromSquare)) ? 1 : -1;
-    int rank = getRank(fromSquare) + rankOffset;
-    int file = getFile(fromSquare) + fileOffset;
-
-    while (rank != getRank(toSquare) && file != getFile(toSquare))
-    {
-        if (getPiece(getSquare(file, rank)) != EMPTY)
-            return false;
-
-        rank += rankOffset;
-        file += fileOffset;
-    }
-
-    return true;
-*/
-
-
-
-/*
-    if (std::abs(getRank(toSquare) - getRank(fromSquare)) != std::abs(getFile(toSquare) - getFile(fromSquare)))
-    return false;
-
-    // Check if there are any obstructions along the diagonal path
-    int rankDirection = (getRank(toSquare) >getRank(fromSquare)) ? 1 : -1;
-    int fileDirection = (getFile(toSquare) > getFile(fromSquare)) ? 1 : -1;
-
-    int rank = getRank(fromSquare) + rankDirection;
-    int file = getFile(fromSquare) + fileDirection;
-
-    while (rank != getRank(toSquare) && file != getFile(toSquare))
-    {
-        if (!isPathClear(fromSquare, toSquare)) // There is an obstruction on the path
-            return false;
-
-        rank += rankDirection;
-        file += fileDirection;
-    }
-
-    return true;*/
-
 }
 
 bool Chessboard::isValidQueenMove(int fromSquare, int toSquare) const
 {
-    // Check if the move is horizontal, vertical, or diagonal
     if (getRank(fromSquare) != getRank(toSquare) && getFile(fromSquare) != getFile(toSquare) &&
         std::abs(getRank(toSquare) - getRank(fromSquare)) != std::abs(getFile(toSquare) - getFile(fromSquare)))
         return false;
 
-    // Check if there are any obstructions along the path
     if (!isPathClear(fromSquare, toSquare))
         return false;
 

@@ -22,8 +22,8 @@ public:
     static bool isQueenMoveLegal(const Chessboard &board, int sourceSquare, int targetSquare);
     static bool isKingMoveLegal(const Chessboard &board, int sourceSquare, int targetSquare);
 
-public:
     static std::vector<int> getLegalMoves(const Chessboard &board, int square);
+    static std::vector<int> getAllLegalMoves(const Chessboard &board);
     static std::string getSquareName(int square);
 };
 

@@ -6,10 +6,11 @@ int main()
 {
     Chessboard board;
 
-    board.loadFEN("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR"); // 20
+    //board.loadFEN("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR"); // 20
     // board.loadFEN("rnbq1k1r/pp1Pbppp/2p5/8/2B5/8/PPP1NnPP/RNBQK2R");//44
     // board.loadFEN("8/2p5/3p4/KP5r/1R3p1k/8/4P1P1/8");//14
-    // board.loadFEN("8/8/r7/8/8/8/8/8");//14
+    board.loadFEN("8/8/b7/8/8/8/8/8");//14
+    board.prettyPrint();
 
     //int sol = 0;
 /*
@@ -17,7 +18,6 @@ int main()
     {
         std::vector<int> moves;
         Move::generateMoves(board, square, moves);
-
         std::cout << "Moves for square " << square << ": ";
         for (std::vector<int>::iterator it = moves.begin(); it != moves.end(); ++it)
         {
@@ -27,6 +27,25 @@ int main()
         }
         std::cout << std::endl;
     }*/
+
+    //board.setPiece(17, PAWN, BLACK);
+    std::cout << Move::isPawnMoveLegal(board, 8, 17, WHITE) << std::endl;
+    
+    //board.setPiece(24, BISHOP, WHITE);
+    //board.setPiece(8, BISHOP, WHITE);
+    //board.prettyPrint();
+
+
+    int square  = 40;
+    std::vector<int> legalMoves = Move::getLegalMoves(board, square);
+    std::cout << legalMoves.size() << std::endl;
+
+    //std::vector<int> alllegalMoves = Move::getAllLegalMoves(board);
+    //std::cout << alllegalMoves.size() << std::endl;
+    //for (unsigned long i = 0; i < alllegalMoves.size(); ++i) {
+    //    std::cout << Move::getSquareName(alllegalMoves[i]) << " ";
+    //}
+
     int result = perft(board, 1);
     std::cout << result << std::endl;
 

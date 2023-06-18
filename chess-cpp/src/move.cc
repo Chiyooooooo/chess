@@ -422,6 +422,22 @@ std::vector<int> Move::getLegalMoves(const Chessboard &board, int square)
     return legalMoves;
 }
 
+std::vector<int> Move::getAllLegalMoves(const Chessboard &board) ///marche vrmnt pas bien
+{
+   std::vector<int> allLegalMoves;
+
+    for (int square = 0; square < 64; square++) {
+        if (board.getPiece(square) == EMPTY || board.getColor(square) != WHITE)//board.sideToMove())
+            continue;
+
+        generateMoves(board, square, allLegalMoves);
+        //std::vector<int> legalMoves = Move::getLegalMoves(board, square);
+        //allLegalMoves.insert(allLegalMoves.end(), legalMoves.begin(), legalMoves.end());
+    }
+
+    return allLegalMoves;
+}
+
 std::string Move::getSquareName(int square)
 {
     int rank = square / Chessboard::Size;
