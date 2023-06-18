@@ -6,37 +6,38 @@
 #include <vector>
 #include <cmath>
 
-void Move::generateMoves(const Chessboard& board, int square, std::vector<int>& moves)
+
+void Move::generateMoves(const Chessboard &board, int square, std::vector<int> &moves)
 {
     Piece piece = board.getPiece(square);
     Color color = board.getColor(square);
 
     switch (piece)
     {
-        case PAWN:
-            generatePawnMoves(board, square, color, moves);
-            break;
-        case ROOK:
-            generateRookMoves(board, square, moves);
-            break;
-        case KNIGHT:
-            generateKnightMoves(board, square, moves);
-            break;
-        case BISHOP:
-            generateBishopMoves(board, square, moves);
-            break;
-        case QUEEN:
-            generateQueenMoves(board, square, moves);
-            break;
-        case KING:
-            generateKingMoves(board, square, moves);
-            break;
-        default:
-            break;
+    case 1:
+        generatePawnMoves(board, square, color, moves);
+        break;
+    case 2:
+        generateRookMoves(board, square, moves);
+        break;
+    case 3:
+        generateKnightMoves(board, square, moves);
+        break;
+    case 4:
+        generateBishopMoves(board, square, moves);
+        break;
+    case 5:
+        generateQueenMoves(board, square, moves);
+        break;
+    case 6:
+        generateKingMoves(board, square, moves);
+        break;
+    default:
+        break;
     }
 }
 
-void Move::generatePawnMoves(const Chessboard& board, int square, Color color, std::vector<int>& moves)
+void Move::generatePawnMoves(const Chessboard &board, int square, Color color, std::vector<int> &moves)
 {
     int rank = board.getRank(square);
     int file = board.getFile(square);
@@ -48,7 +49,7 @@ void Move::generatePawnMoves(const Chessboard& board, int square, Color color, s
     {
         moves.push_back(forwardSquare);
 
-        // Check if it's the pawn's first move and it can move two squares forward
+        // Cpremier coup ? alors go avancer de deux
         if ((rank == 1 && color == WHITE) || (rank == 6 && color == BLACK))
         {
             int doubleForwardSquare = board.getSquare(file, rank + 2 * forwardDir);
@@ -58,8 +59,7 @@ void Move::generatePawnMoves(const Chessboard& board, int square, Color color, s
             }
         }
     }
-
-    // Generate diagonal captures
+    //capture autre piece ennemi
     int leftCaptureSquare = board.getSquare(file - 1, rank + forwardDir);
     int rightCaptureSquare = board.getSquare(file + 1, rank + forwardDir);
 
@@ -76,15 +76,14 @@ void Move::generatePawnMoves(const Chessboard& board, int square, Color color, s
     }
 }
 
-void Move::generateRookMoves(const Chessboard& board, int square, std::vector<int>& moves)
+void Move::generateRookMoves(const Chessboard &board, int square, std::vector<int> &moves)
 {
     int rank = board.getRank(square);
     int file = board.getFile(square);
 
-    // Generate moves along the rank
     for (int f = 0; f < Chessboard::Size; ++f)
     {
-        if (f != file)
+        if (f != file) //collumn
         {
             int targetSquare = board.getSquare(f, rank);
             if (isMoveLegal(board, square, targetSquare))
@@ -94,10 +93,9 @@ void Move::generateRookMoves(const Chessboard& board, int square, std::vector<in
         }
     }
 
-    // Generate moves along the file
     for (int r = 0; r < Chessboard::Size; ++r)
     {
-        if (r != rank)
+        if (r != rank) //rang
         {
             int targetSquare = board.getSquare(file, r);
             if (isMoveLegal(board, square, targetSquare))
@@ -108,14 +106,13 @@ void Move::generateRookMoves(const Chessboard& board, int square, std::vector<in
     }
 }
 
-void Move::generateKnightMoves(const Chessboard& board, int square, std::vector<int>& moves)
+void Move::generateKnightMoves(const Chessboard &board, int square, std::vector<int> &moves)
 {
     int rank = board.getRank(square);
     int file = board.getFile(square);
 
-    // Generate all possible knight moves
-    int rankOffsets[] = { 2, 2, -2, -2, 1, 1, -1, -1 };
-    int fileOffsets[] = { 1, -1, 1, -1, 2, -2, 2, -2 };
+    int rankOffsets[] = {2, 2, -2, -2, 1, 1, -1, -1};
+    int fileOffsets[] = {1, -1, 1, -1, 2, -2, 2, -2};
 
     for (int i = 0; i < 8; ++i)
     {
@@ -130,51 +127,89 @@ void Move::generateKnightMoves(const Chessboard& board, int square, std::vector<
     }
 }
 
-void Move::generateBishopMoves(const Chessboard& board, int square, std::vector<int>& moves)
+void Move::generateBishopMoves(const Chessboard &board, int square, std::vector<int> &moves)
 {
     int rank = board.getRank(square);
     int file = board.getFile(square);
-
-    // Generate moves along the diagonals
+        
     for (int offset = 1; offset < Chessboard::Size; ++offset)
     {
-        // Generate moves along the positive diagonal
         int targetRank = rank + offset;
         int targetFile = file + offset;
-        int targetSquare = board.getSquare(targetFile, targetRank);
+        int targetSquare = board.getSquare( targetFile, targetRank);
 
-        if (board.isValidSquare(targetSquare) && isMoveLegal(board, square, targetSquare))
+        if (board.isValidSquare(targetSquare) && board.isValidBishopMove( square, targetSquare))
         {
             moves.push_back(targetSquare);
         }
+                else
+        {
+            break; 
+        }
+    }
 
-        // Generate moves along the negative diagonal
-        targetRank = rank - offset;
-        targetFile = file - offset;
-        targetSquare = board.getSquare(targetFile, targetRank);
+    for (int offset = 1; offset < Chessboard::Size; ++offset)
+    {
+        int targetRank = rank - offset;
+        int targetFile = file + offset;
+        int targetSquare = board.getSquare( targetFile, targetRank);
 
-        if (board.isValidSquare(targetSquare) && isMoveLegal(board, square, targetSquare))
+        if (board.isValidSquare(targetSquare) && board.isValidBishopMove( square, targetSquare))
         {
             moves.push_back(targetSquare);
+        }
+        else
+        {
+            break;
+        }
+    }
+
+    for (int offset = 1; offset < Chessboard::Size; ++offset)
+    {
+        int targetRank = rank - offset;
+        int targetFile = file - offset;
+        int targetSquare = board.getSquare( targetFile, targetRank);
+ 
+        if (board.isValidSquare(targetSquare) && board.isValidBishopMove( square, targetSquare))
+        {
+            moves.push_back(targetSquare);
+        }
+        else
+        {
+            break; 
+        }
+    }
+
+    for (int offset = 1; offset < Chessboard::Size; ++offset)
+    {
+        int targetRank = rank + offset;
+        int targetFile = file - offset;
+        int targetSquare = board.getSquare( targetFile, targetRank);
+
+        if (board.isValidSquare(targetSquare) && board.isValidBishopMove( square, targetSquare))
+        {
+            moves.push_back(targetSquare);
+        }
+        else
+        {
+            break; 
         }
     }
 }
 
-void Move::generateQueenMoves(const Chessboard& board, int square, std::vector<int>& moves)
+void Move::generateQueenMoves(const Chessboard &board, int square, std::vector<int> &moves)
 {
-    // Generate moves as a combination of rook and bishop moves
     generateRookMoves(board, square, moves);
     generateBishopMoves(board, square, moves);
 }
 
-void Move::generateKingMoves(const Chessboard& board, int square, std::vector<int>& moves)
+void Move::generateKingMoves(const Chessboard &board, int square, std::vector<int> &moves)
 {
     int rank = board.getRank(square);
     int file = board.getFile(square);
 
-    // Generate all possible king moves
-    int rankOffsets[] = { 1, 1, 1, 0, 0, -1, -1, -1 };
-    int fileOffsets[] = { 1, 0, -1, 1, -1, 1, 0, -1 };
+    int rankOffsets[] = {1, 1, 1, 0, 0, -1, -1, -1};
+    int fileOffsets[] = {1, 0, -1, 1, -1, 1, 0, -1};
 
     for (int i = 0; i < 8; ++i)
     {
@@ -189,48 +224,53 @@ void Move::generateKingMoves(const Chessboard& board, int square, std::vector<in
     }
 }
 
-bool Move::isMoveLegal(const Chessboard& board, int sourceSquare, int targetSquare)
+bool Move::isMoveLegal(const Chessboard &board, int sourceSquare, int targetSquare)
 {
     Color color = board.getColor(sourceSquare);
     Piece piece = board.getPiece(sourceSquare);
 
-    // Check if the target square is occupied by a piece of the same color
+    // std::cout<<color;
+    //std::cout << piece;
     if (board.getPiece(targetSquare) != EMPTY && board.getColor(targetSquare) == color)
     {
         return false;
     }
-    // Check if the move is valid for the specific piece
     switch (piece)
     {
-        case PAWN:
-            return isPawnMoveLegal(board, sourceSquare, targetSquare, color);
-        case ROOK:
-            return isRookMoveLegal(board, sourceSquare, targetSquare);
-        case KNIGHT:
-            return isKnightMoveLegal(board, sourceSquare, targetSquare);
-        case BISHOP:
-            return isBishopMoveLegal(board, sourceSquare, targetSquare);
-        case QUEEN:
-            return isQueenMoveLegal(board, sourceSquare, targetSquare);
-        case KING:
-            return isKingMoveLegal(board, sourceSquare, targetSquare);
-        default:
-            return false;
+    case 1:
+        std::cout << "pawn";
+        return isPawnMoveLegal(board, sourceSquare, targetSquare, color);
+    case 2:
+        //std::cout << "rook";
+        return isRookMoveLegal(board, sourceSquare, targetSquare);
+    case 3:
+        //std::cout << "knight";
+        return isKnightMoveLegal(board, sourceSquare, targetSquare);
+    case 4:
+        //std::cout << "bishop";
+        return isBishopMoveLegal(board, sourceSquare, targetSquare);
+    case 5:
+        //std::cout << "queen";
+        return isQueenMoveLegal(board, sourceSquare, targetSquare);
+    case 6:
+        //std::cout << "king";
+        return isKingMoveLegal(board, sourceSquare, targetSquare);
+    default:
+        //std::cout << "RIEN";
+        return false;
     }
 }
 
-bool Move::isPawnMoveLegal(const Chessboard& board, int sourceSquare, int targetSquare, Color color)
+bool Move::isPawnMoveLegal(const Chessboard &board, int sourceSquare, int targetSquare, Color color)
 {
     int rankDiff = board.getRank(targetSquare) - board.getRank(sourceSquare);
     int fileDiff = std::abs(board.getFile(targetSquare) - board.getFile(sourceSquare));
 
-    // Check if the pawn is moving forward
     if ((color == WHITE && rankDiff <= 0) || (color == BLACK && rankDiff >= 0))
     {
         return false;
     }
 
-    // Check if the pawn is moving too far
     if (std::abs(rankDiff) > 2)
     {
         return false;
@@ -262,10 +302,8 @@ bool Move::isPawnMoveLegal(const Chessboard& board, int sourceSquare, int target
             }
         }
     }
-    // Check if the pawn is capturing diagonally
-    else if (fileDiff == 1 && std::abs(rankDiff) == 1)
+    else if (fileDiff == 1 && std::abs(rankDiff) == 1)//capture un ennemi
     {
-        // Check if the target square is occupied by an opponent's piece
         if (board.getPiece(targetSquare) != EMPTY && board.getColor(targetSquare) != color)
         {
             return true;
@@ -275,8 +313,9 @@ bool Move::isPawnMoveLegal(const Chessboard& board, int sourceSquare, int target
     return false;
 }
 
-bool Move::isRookMoveLegal(const Chessboard& board, int sourceSquare, int targetSquare)
+bool Move::isRookMoveLegal(const Chessboard &board, int sourceSquare, int targetSquare)
 {
+    return true;
     int sourceRank = board.getRank(sourceSquare);
     int sourceFile = board.getFile(sourceSquare);
     int targetRank = board.getRank(targetSquare);
@@ -313,16 +352,18 @@ bool Move::isRookMoveLegal(const Chessboard& board, int sourceSquare, int target
     return false;
 }
 
-bool Move::isKnightMoveLegal(const Chessboard& board, int sourceSquare, int targetSquare)
+bool Move::isKnightMoveLegal(const Chessboard &board, int sourceSquare, int targetSquare)
 {
+    return true;
     int rankDiff = std::abs(board.getRank(targetSquare) - board.getRank(sourceSquare));
     int fileDiff = std::abs(board.getFile(targetSquare) - board.getFile(sourceSquare));
 
+    return true;
     // Check if the move is in an L-shape (2 squares in one direction and 1 square in the other)
     return (rankDiff == 2 && fileDiff == 1) || (rankDiff == 1 && fileDiff == 2);
 }
 
-bool Move::isBishopMoveLegal(const Chessboard& board, int sourceSquare, int targetSquare)
+bool Move::isBishopMoveLegal(const Chessboard &board, int sourceSquare, int targetSquare)
 {
     int sourceRank = board.getRank(sourceSquare);
     int sourceFile = board.getFile(sourceSquare);
@@ -360,13 +401,12 @@ bool Move::isBishopMoveLegal(const Chessboard& board, int sourceSquare, int targ
     return false;
 }
 
-bool Move::isQueenMoveLegal(const Chessboard& board, int sourceSquare, int targetSquare)
+bool Move::isQueenMoveLegal(const Chessboard &board, int sourceSquare, int targetSquare)
 {
-    // A queen can move like a rook or a bishop
     return isRookMoveLegal(board, sourceSquare, targetSquare) || isBishopMoveLegal(board, sourceSquare, targetSquare);
 }
 
-bool Move::isKingMoveLegal(const Chessboard& board, int sourceSquare, int targetSquare)
+bool Move::isKingMoveLegal(const Chessboard &board, int sourceSquare, int targetSquare)
 {
     int rankDiff = std::abs(board.getRank(targetSquare) - board.getRank(sourceSquare));
     int fileDiff = std::abs(board.getFile(targetSquare) - board.getFile(sourceSquare));
@@ -375,7 +415,7 @@ bool Move::isKingMoveLegal(const Chessboard& board, int sourceSquare, int target
     return rankDiff <= 1 && fileDiff <= 1;
 }
 
-std::vector<int> Move::getLegalMoves(const Chessboard& board, int square)
+std::vector<int> Move::getLegalMoves(const Chessboard &board, int square)
 {
     std::vector<int> legalMoves;
     generateMoves(board, square, legalMoves);
@@ -393,43 +433,4 @@ std::string Move::getSquareName(int square)
     return name;
 }
 
-/*
-int main() {
-    // Create a chessboard
-    Chessboard board;
-    board.loadFEN("8/8/8/8/8/8/8/8");
-    //board.prettyPrint();
-    // Set up a test position
 
-    board.setPiece(42, ROOK, WHITE);
-    board.setPiece(14, PAWN,  WHITE);
-    board.setPiece(10,  PAWN, WHITE);
-    board.prettyPrint();
-
-    board.movePiece(42, 18);
-    board.prettyPrint();
-
-    board.undoMove(42, 18, EMPTY, EMPTY_COLOR);
-    board.prettyPrint();
-
-
-    // Generate and display legal moves for a square
-    int square = 42;
-    std::vector<int> legalMoves = Move::getLegalMoves(board, square);
-    std::cout << "Legal moves for square " << Move::getSquareName(square) << ":" << std::endl;
-    std::cout << legalMoves.size();
-    
-    int squar = 10;
-    std::vector<int> legalMove = Move::getLegalMoves(board, squar);
-    std::cout << "Legal moves for square " << Move::getSquareName(squar) << ":" << std::endl;
-  //  /*for (int i = 0; i < legalMoves.size(); i++) {
-    //    int move = legalMoves[i];   
-      //  std::cout << Move::getSquareName(move) << std::endl;
-    //}
-    
-    std::cout << legalMove.size();
-
-    return 0;
-}
-
-*/

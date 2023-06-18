@@ -7,15 +7,13 @@ class Move
 {
 public:
     static void generateMoves(const Chessboard &board, int square, std::vector<int> &moves);
-
-public:
     static void generatePawnMoves(const Chessboard &board, int square, Color color, std::vector<int> &moves);
     static void generateRookMoves(const Chessboard &board, int square, std::vector<int> &moves);
     static void generateKnightMoves(const Chessboard &board, int square, std::vector<int> &moves);
     static void generateBishopMoves(const Chessboard &board, int square, std::vector<int> &moves);
     static void generateQueenMoves(const Chessboard &board, int square, std::vector<int> &moves);
     static void generateKingMoves(const Chessboard &board, int square, std::vector<int> &moves);
-    
+
     static bool isMoveLegal(const Chessboard &board, int sourceSquare, int targetSquare);
     static bool isPawnMoveLegal(const Chessboard &board, int sourceSquare, int targetSquare, Color color);
     static bool isRookMoveLegal(const Chessboard &board, int sourceSquare, int targetSquare);

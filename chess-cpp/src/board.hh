@@ -7,23 +7,22 @@
 #include <vector>
 #include <cmath>
 
-
 enum Piece
 {
     EMPTY = -1,
-    PAWN,
-    ROOK,
-    KNIGHT,
-    BISHOP,
-    QUEEN,
-    KING
+    PAWN = 1,
+    ROOK = 2,
+    KNIGHT = 3,
+    BISHOP = 4,
+    QUEEN = 5,
+    KING = 6
 };
 
 enum Color
 {
     EMPTY_COLOR = -1,
-    BLACK,
-    WHITE
+    BLACK=0,
+    WHITE=1
 };
 
 class Chessboard
@@ -37,7 +36,7 @@ public:
     void setPiece(int square, Piece piece, Color color);
     Piece getPiece(int square) const;
     Color getColor(int square) const;
-    bool isValidSquare(int square) const;
+    bool isValidSquare(int square) const; // case bien dans l'echiquier
     void loadFEN(const std::string &fen);
     bool isValidMove(int fromSquare, int toSquare) const;
     bool isValidPawnMove(int fromSquare, int toSquare, Color color) const;
@@ -62,6 +61,6 @@ private:
     Piece getPieceFromChar(char c) const;
 };
 
-unsigned long long perft(Chessboard &board, int depth);
+int perft(Chessboard &board, int depth);
 
-#endif  // BOARD_HH
+#endif // BOARD_HH
