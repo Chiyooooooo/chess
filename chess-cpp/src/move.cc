@@ -516,7 +516,6 @@ std::vector<int> Move::getAllLegalMoves(const Chessboard &board) ///marche vrmnt
         //std::vector<int> legalMoves = Move::getLegalMoves(board, square);
         //allLegalMoves.insert(allLegalMoves.end(), legalMoves.begin(), legalMoves.end());
     }
-
     return allLegalMoves;
 }
 
