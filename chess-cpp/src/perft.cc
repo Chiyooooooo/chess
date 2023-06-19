@@ -29,6 +29,7 @@ int perft(Chessboard &board, int depth)
                     //std::cout << "dedans";
                     solution += perft(board, depth - 1);
                 }
+                ///// pas obublier de changer le boolean 
                 board.undoMove(fromSquare, toSquare, capturedPiece, capturedPieceColor);
             }
         }

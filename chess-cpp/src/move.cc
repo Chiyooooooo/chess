@@ -7,6 +7,7 @@
 #include <cmath>
 
 
+
 void Move::generateMoves(const Chessboard &board, int square, std::vector<int> &moves)
 {
     Piece piece = board.getPiece(square);
@@ -260,6 +261,7 @@ bool Move::lilCastlingMove(const Chessboard& board, int sourceSquare, int target
     return true;
 }
 
+
 bool Move::bigCastlingMove(const Chessboard& board, int sourceSquare, int targetSquare)
 {
     int sourceRank = board.getRank(sourceSquare);
@@ -287,6 +289,7 @@ bool Move::bigCastlingMove(const Chessboard& board, int sourceSquare, int target
 
 bool Move::isCastlingLegal(const Chessboard& board, int sourceSquare, int targetSquare)
 {
+
     if (board.isKingInCheck(board.getColor(sourceSquare)))
     {
         return false;
@@ -304,12 +307,21 @@ bool Move::isMoveLegal(const Chessboard &board, int sourceSquare, int targetSqua
     Color color = board.getColor(sourceSquare);
     Piece piece = board.getPiece(sourceSquare);
 
-
-    if (lilCastlingMove(board, sourceSquare, targetSquare) || bigCastlingMove(board, sourceSquare, targetSquare))
+    if (((color == WHITE) && ::Chessboard::castlingWK==true) || ((color == BLACK) && ::Chessboard::castlingBK==true))
     {
+        if (lilCastlingMove(board, sourceSquare, targetSquare))
+        {
         return isCastlingLegal(board, sourceSquare, targetSquare);
+        }
     }
-
+    if (((color == WHITE) && ::Chessboard::castlingWQ==true) || ((color == BLACK) && ::Chessboard::castlingBQ==true))
+    {
+        if (bigCastlingMove(board, sourceSquare, targetSquare))
+        {
+        return isCastlingLegal(board, sourceSquare, targetSquare);
+        }
+    }
+    
 
     if (board.getPiece(targetSquare) != EMPTY && board.getColor(targetSquare) == color)
     {
@@ -462,11 +474,9 @@ bool Move::isBishopMoveLegal(const Chessboard &board, int sourceSquare, int targ
             {
                 return false;
             }
-
             currentRank += rankStep;
             currentFile += fileStep;
         }
-
         return true;
     }
 

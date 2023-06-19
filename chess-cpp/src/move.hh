@@ -6,6 +6,7 @@
 class Move
 {
 public:
+
     static void generateMoves(const Chessboard &board, int square, std::vector<int> &moves);
     static void generatePawnMoves(const Chessboard &board, int square, Color color, std::vector<int> &moves);
     static void generateRookMoves(const Chessboard &board, int square, std::vector<int> &moves);
@@ -13,7 +14,6 @@ public:
     static void generateBishopMoves(const Chessboard &board, int square, std::vector<int> &moves);
     static void generateQueenMoves(const Chessboard &board, int square, std::vector<int> &moves);
     static void generateKingMoves(const Chessboard &board, int square, std::vector<int> &moves);
-
 
     static bool lilCastlingMove(const Chessboard& board, int sourceSquare, int targetSquare);
     static bool bigCastlingMove(const Chessboard& board, int sourceSquare, int targetSquare);

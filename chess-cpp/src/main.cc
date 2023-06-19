@@ -4,6 +4,12 @@
 
 int main()
 {
+    /*
+    Chessboard::castlingBK = true;
+    Chessboard::castlingWK = true;
+    Chessboard::castlingBQ = true;
+    Chessboard::castlingWQ = true;*/
+
     Chessboard board;
 
     //board.loadFEN("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR"); // 20
@@ -43,7 +49,6 @@ int main()
     //board.setPiece(8, BISHOP, WHITE);
     //board.prettyPrint();
 
-
     //int square  = 40;
     //std::vector<int> legalMoves = Move::getLegalMoves(board, square);
     //std::cout << legalMoves.size() << std::endl;
@@ -52,7 +57,9 @@ int main()
     std::cout << all.size() << std::endl;
     //print all elements of all
     for (unsigned long i = 0; i < all.size(); ++i) {
-        std::cout << Move::getSquareName(all[i]) << " ";
+        std::cout << (all[i]) << " ";
+       // std::cout << Move::getSquareName(all[i]) << " ";
+
     }
 
     //std::vector<int> alllegalMoves = Move::getAllLegalMoves(board);

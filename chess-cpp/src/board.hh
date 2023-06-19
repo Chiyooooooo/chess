@@ -30,6 +30,11 @@ class Chessboard
 public:
     static const int Size = 8;
 
+    inline static bool castlingWK = true;
+    inline static bool castlingWQ = true ;
+    inline static bool castlingBK = true;
+    inline static bool castlingBQ = true;
+
     Chessboard();
 
     void reset();

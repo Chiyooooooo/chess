@@ -225,6 +225,22 @@ void Chessboard::movePiece(int fromSquare, int toSquare)
     Piece piece = getPiece(fromSquare);
     Color color = getColor(fromSquare);
 
+    if (color == WHITE && getRank(piece)==0 && getFile(piece)==0 )
+    {
+        castlingWQ = false;
+    }
+    if (color == WHITE && getRank(piece)==0 && getFile(piece)==7 )
+    {
+        castlingWK = false;
+    }
+    if (color == BLACK && getRank(piece)==7 && getFile(piece)==0 )
+    {
+        castlingBQ = false;
+    }
+    if (color == BLACK && getRank(piece)==7 && getFile(piece)==7 )
+    {
+        castlingBK = false;
+    }
     setPiece(toSquare, piece, color);
     setPiece(fromSquare, EMPTY, EMPTY_COLOR);
 }
