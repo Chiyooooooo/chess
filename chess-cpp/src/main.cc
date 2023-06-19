@@ -2,14 +2,99 @@
 #include "perft.hh"
 
 
+//create a new main that parse a FEN notation and store the color of the player to move,  the position of the pieces on the board, the castling ability for each player and the en passant target square
+int main(int argc, char* argv[])
+{
+    if (argc < 2)
+    {
+        std::cerr << "failed args" << std::endl;
+        return 1;
+    }
+    // exemple :
+    //rnbq1k1r/pp1Pbppp/2p5/8/2B5/8/PPP1NnPP/RNBQK2R w KQ - 1 8 1
+
+    Chessboard board;
+    std::string fen = argv[2];
+
+    std::string playerToMove = argv[3];
+    //Color PlayerToMove;
+    if (playerToMove == "w")
+    {
+        board.PlayerToMove = WHITE;
+    }
+    else if (playerToMove == "b")
+    {
+        board.PlayerToMove = BLACK;
+    }
+    else
+    {
+        std::cerr << "failed color" << std::endl;
+        return 1;
+    }
+
+    std::string castling = argv[4];
+    if (castling == "-")
+    {
+        board.castlingWK = false;
+        board.castlingWQ = false;
+        board.castlingBK = false;
+        board.castlingBQ = false;
+    }
+    else
+    {
+        for (unsigned long i = 0; i < castling.size(); ++i)
+        {
+            if (castling[i] == 'K')
+            {
+                board.castlingWK = true;
+            }
+            else if (castling[i] == 'Q')
+            {
+                board.castlingWQ = true;
+            }
+            else if (castling[i] == 'k')
+            {
+                board.castlingBK = true;
+            }
+            else if (castling[i] == 'q')
+            {
+                board.castlingBQ = true;
+            }
+            else
+            {
+                std::cerr << "failed castling" << std::endl;
+                return 1;
+            }
+        }
+    }
+/// faire avec un fichier pour avoir le mm test qque dans le sujet 
+// faire bien le perft et que ca soit lui qui renvoit le bon bail 
+// pas oublier de gere le roque dans le perft
+///reste le en passant a gerer, puis la promotion
+//
+
+
+
+    board.loadFEN(fen);
+    board.prettyPrint();
+
+    std::vector<int> all = Move::generateAllLegalMoves(board);
+    std::cout << all.size() << std::endl;
+    for (unsigned long i = 0; i < all.size(); ++i) {
+        std::cout << Move::getSquareName(all[i]) << " ";
+    }
+
+    int result = perft(board, 1);
+    std::cout << result << std::endl;
+
+    return 0;
+}
+
+
+
+/*
 int main()
 {
-    /*
-    Chessboard::castlingBK = true;
-    Chessboard::castlingWK = true;
-    Chessboard::castlingBQ = true;
-    Chessboard::castlingWQ = true;*/
-
     Chessboard board;
 
     //board.loadFEN("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR"); // 20
@@ -27,27 +112,13 @@ int main()
     board.prettyPrint();
 
     //int sol = 0;
-/*
-    for (int square = 0; square < Chessboard::Size * Chessboard::Size; ++square)
-    {
-        std::vector<int> moves;
-        Move::generateMoves(board, square, moves);
-        std::cout << "Moves for square " << square << ": ";
-        for (std::vector<int>::iterator it = moves.begin(); it != moves.end(); ++it)
-        {
-            int move = *it;
-            std::cout << move << " ";
-            sol++;
-        }
-        std::cout << std::endl;
-    }*/
-
     //board.setPiece(17, PAWN, BLACK);
     //std::cout << Move::isPawnMoveLegal(board, 8, 17, WHITE) << std::endl;
     
     //board.setPiece(24, BISHOP, WHITE);
     //board.setPiece(8, BISHOP, WHITE);
     //board.prettyPrint();
+
 
     //int square  = 40;
     //std::vector<int> legalMoves = Move::getLegalMoves(board, square);
@@ -57,23 +128,15 @@ int main()
     std::cout << all.size() << std::endl;
     //print all elements of all
     for (unsigned long i = 0; i < all.size(); ++i) {
-        std::cout << (all[i]) << " ";
-       // std::cout << Move::getSquareName(all[i]) << " ";
-
+        std::cout << Move::getSquareName(all[i]) << " ";
     }
-
-    //std::vector<int> alllegalMoves = Move::getAllLegalMoves(board);
-    //std::cout << alllegalMoves.size() << std::endl;
-    //for (unsigned long i = 0; i < alllegalMoves.size(); ++i) {
-    //    std::cout << Move::getSquareName(alllegalMoves[i]) << " ";
-    //}
 
     int result = perft(board, 1);
     std::cout << result << std::endl;
 
     return 0;
 }
-
+*/
 
 /*
 int main() {

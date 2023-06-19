@@ -525,7 +525,7 @@ std::vector<int> Move::generateAllLegalMoves(const Chessboard &board)
     std::vector<int> allLegalMoves;
 
     for (int sourceSquare = 0; sourceSquare < 64; sourceSquare++) {
-        if (board.getPiece(sourceSquare) != EMPTY && board.getColor(sourceSquare) != BLACK/*&& board.getColor(sourceSquare) == board.sideToMove()*/) {
+        if (board.getPiece(sourceSquare) != EMPTY && board.getColor(sourceSquare) == board.PlayerToMove) {
             for (int targetSquare = 0; targetSquare < 64; targetSquare++) {
                 if (targetSquare == sourceSquare) {
                     continue;

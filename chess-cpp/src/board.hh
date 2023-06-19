@@ -34,6 +34,7 @@ public:
     inline static bool castlingWQ = true ;
     inline static bool castlingBK = true;
     inline static bool castlingBQ = true;
+    inline static Color PlayerToMove;
 
     Chessboard();
 
