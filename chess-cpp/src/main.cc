@@ -7,9 +7,12 @@ int main()
     Chessboard board;
 
     //board.loadFEN("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR"); // 20
-    // board.loadFEN("rnbq1k1r/pp1Pbppp/2p5/8/2B5/8/PPP1NnPP/RNBQK2R");//44
-    // board.loadFEN("8/2p5/3p4/KP5r/1R3p1k/8/4P1P1/8");//14
-    board.loadFEN("8/8/b7/8/8/8/8/8");//14
+    //board.loadFEN("8/8/8/8/8/8/PPPPPPPP/RNBQKBNR"); // 20
+    //board.loadFEN("rnbq1k1r/pp1Pbppp/2p5/8/2B5/8/PPP1NnPP/RNBQK2R");//44
+    board.loadFEN("8/8/8/8/8/8/8/4K2R");//19 normalement
+
+    //board.loadFEN("8/2p5/3p4/KP5r/1R3p1k/8/4P1P1/8");//14
+    //board.loadFEN("8/8/b7/8/8/8/8/8");//14
     board.prettyPrint();
 
     //int sol = 0;
@@ -39,6 +42,14 @@ int main()
     int square  = 40;
     std::vector<int> legalMoves = Move::getLegalMoves(board, square);
     std::cout << legalMoves.size() << std::endl;
+
+
+    std::vector<int> all = Move::generateAllLegalMoves(board);
+    std::cout << all.size() << std::endl;
+    //print all elements of all
+    for (unsigned long i = 0; i < all.size(); ++i) {
+        std::cout << Move::getSquareName(all[i]) << " ";
+    }
 
     //std::vector<int> alllegalMoves = Move::getAllLegalMoves(board);
     //std::cout << alllegalMoves.size() << std::endl;

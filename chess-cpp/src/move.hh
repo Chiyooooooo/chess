@@ -14,6 +14,11 @@ public:
     static void generateQueenMoves(const Chessboard &board, int square, std::vector<int> &moves);
     static void generateKingMoves(const Chessboard &board, int square, std::vector<int> &moves);
 
+
+    static bool isCastlingMove(const Chessboard& board, int sourceSquare, int targetSquare);
+    static bool isCastlingLegal(const Chessboard& board, int sourceSquare, int targetSquare);
+    //static bool isEnPassantMove(const Chessboard& board, int sourceSquare, int targetSquare);
+
     static bool isMoveLegal(const Chessboard &board, int sourceSquare, int targetSquare);
     static bool isPawnMoveLegal(const Chessboard &board, int sourceSquare, int targetSquare, Color color);
     static bool isRookMoveLegal(const Chessboard &board, int sourceSquare, int targetSquare);
@@ -22,8 +27,13 @@ public:
     static bool isQueenMoveLegal(const Chessboard &board, int sourceSquare, int targetSquare);
     static bool isKingMoveLegal(const Chessboard &board, int sourceSquare, int targetSquare);
 
+
+
     static std::vector<int> getLegalMoves(const Chessboard &board, int square);
     static std::vector<int> getAllLegalMoves(const Chessboard &board);
+    
+    static std::vector<int> generateAllLegalMoves(const Chessboard &board);
+
     static std::string getSquareName(int square);
 };
 

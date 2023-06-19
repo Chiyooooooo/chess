@@ -108,33 +108,28 @@ bool Chessboard::isValidMove(int fromSquare, int toSquare) const
 
 bool Chessboard::isValidPawnMove(int fromSquare, int toSquare, Color color) const
 {
-    // Check if the move is within one rank
-    int rankDiff = std::abs(getRank(toSquare) - getRank(fromSquare));
+    int rankDiff = std::abs(getRank(toSquare) - getRank(fromSquare));//bon rang
     if (rankDiff != 1)
         return false;
 
-    // Check if the move is within one file
-    int fileDiff = std::abs(getFile(toSquare) - getFile(fromSquare));
+    int fileDiff = std::abs(getFile(toSquare) - getFile(fromSquare));//bonne column
     if (fileDiff > 1)
         return false;
 
-    // Check if the pawn is moving forward
-    int forwardDir = (color == WHITE) ? 1 : -1;
+    int forwardDir = (color == WHITE) ? 1 : -1; //bonne direction
     if (getRank(toSquare) - getRank(fromSquare) != forwardDir)
         return false;
 
-    // TODO: Implement additional pawn move logic, such as capturing, en passant, promotion, etc.
+    // en passant, promotion, etc.
 
     return true;
 }
 
 bool Chessboard::isValidRookMove(int fromSquare, int toSquare) const
 {
-    // Check if the move is horizontal or vertical
     if (getRank(fromSquare) != getRank(toSquare) && getFile(fromSquare) != getFile(toSquare))
         return false;
 
-    // Check if there are any obstructions along the path
     if (!isPathClear(fromSquare, toSquare))
         return false;
 
@@ -143,7 +138,6 @@ bool Chessboard::isValidRookMove(int fromSquare, int toSquare) const
 
 bool Chessboard::isValidKnightMove(int fromSquare, int toSquare) const
 {
-    // Check if the move is in an L-shape (2 squares in one direction, 1 square in the other)
     int rankDiff = std::abs(getRank(toSquare) - getRank(fromSquare));
     int fileDiff = std::abs(getFile(toSquare) - getFile(fromSquare));
     if ((rankDiff != 2 || fileDiff != 1) && (rankDiff != 1 || fileDiff != 2))
@@ -177,7 +171,6 @@ bool Chessboard::isValidQueenMove(int fromSquare, int toSquare) const
 
 bool Chessboard::isValidKingMove(int fromSquare, int toSquare) const
 {
-    // Check if the move is within one square in any direction
     int rankDiff = std::abs(getRank(toSquare) - getRank(fromSquare));
     int fileDiff = std::abs(getFile(toSquare) - getFile(fromSquare));
     if (rankDiff > 1 || fileDiff > 1)
@@ -223,15 +216,12 @@ int Chessboard::getSquare(int file, int rank) const
 
 void Chessboard::movePiece(int fromSquare, int toSquare)
 {
-    // Check if the squares are valid
     if (!isValidSquare(fromSquare) || !isValidSquare(toSquare))
         return;
 
-    // Check if there is a piece at 'fromSquare'
     if (getPiece(fromSquare) == EMPTY)
         return;
 
-    // Move the piece from 'fromSquare' to 'toSquare'
     Piece piece = getPiece(fromSquare);
     Color color = getColor(fromSquare);
 
@@ -247,7 +237,6 @@ void Chessboard::undoMove(int fromSquare, int toSquare, Piece capturedPiece, Col
 
 bool Chessboard::isKingInCheck(Color kingColor) const
 {
-    // Find the king's square
     int kingSquare = -1;
     for (int square = 0; square < Size * Size; ++square)
     {
@@ -258,25 +247,19 @@ bool Chessboard::isKingInCheck(Color kingColor) const
         }
     }
 
-    // Check if the king's square is under attack
     for (int square = 0; square < Size * Size; ++square)
     {
         Piece piece = getPiece(square);
         Color color = getColor(square);
 
-        // Skip empty squares or pieces of the same color as the king
         if (piece == EMPTY || color == kingColor)
             continue;
 
-        // Check if the piece can attack the king's square
         if (isValidMove(square, kingSquare))
         {
-            // The king's square is under attack
             return true;
         }
     }
-
-    // The king's square is not under attack
     return false;
 }
 
@@ -341,7 +324,6 @@ void Chessboard::prettyPrint() const
     std::cout << "};" << std::endl;
 }
 
-// private:
 int board_[Chessboard::Size * Chessboard::Size];
 int color_[Chessboard::Size * Chessboard::Size];
 
@@ -365,7 +347,6 @@ Piece Chessboard::getPieceFromChar(char c) const
         return EMPTY;
     }
 }
-//};
 
 /*
 #######################################################################################################################################################

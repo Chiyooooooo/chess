@@ -35,6 +35,7 @@ int perft(Chessboard &board, int depth)
     }
     return solution;
 }
+
 /*
 int perft(Chessboard &board, int depth)
 {
