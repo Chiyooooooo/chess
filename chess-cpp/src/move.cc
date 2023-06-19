@@ -224,10 +224,9 @@ void Move::generateKingMoves(const Chessboard &board, int square, std::vector<in
     }
 }
 ////petit roque, pas oublier de faire le grand roque
-// implement isCastlingMove(board, sourceSquare, targetSquare) 
-bool Move::isCastlingMove(const Chessboard& board, int sourceSquare, int targetSquare)
+bool Move::lilCastlingMove(const Chessboard& board, int sourceSquare, int targetSquare)
 {
-
+    //std::cout<<"ROQUE"<<std::endl;
     int sourceRank = board.getRank(sourceSquare);
     int sourceFile = board.getFile(sourceSquare);
     int targetRank = board.getRank(targetSquare);
@@ -248,74 +247,73 @@ bool Move::isCastlingMove(const Chessboard& board, int sourceSquare, int targetS
         return false;
     }
 
-    if (std::abs(sourceFile - targetFile) != 2)
-    {
+    if (std::abs(sourceFile - targetFile) != 3)
+    {    
         return false;
-    }
-    std::cout<<"castling move"<<std::endl;
+    }/*
+    std::cout<<"COLUMN"<<std::endl;
+    std::cout<<"rank fin : "<<targetRank<<std::endl;
+    std::cout<<"col fin  : "<<targetFile<<std::endl;
+    std::cout<<"rank debut : "<<sourceRank<<std::endl;
+    std::cout<<"col  debut : "<<sourceFile<<std::endl;
+    std::cout<<"VALID"<<std::endl;*/
     return true;
 }
 
-// implement isCastlingLegal(board, sourceSquare, targetSquare)
-bool Move::isCastlingLegal(const Chessboard& board, int sourceSquare, int targetSquare)
+bool Move::bigCastlingMove(const Chessboard& board, int sourceSquare, int targetSquare)
 {
     int sourceRank = board.getRank(sourceSquare);
     int sourceFile = board.getFile(sourceSquare);
-    //int targetRank = board.getRank(targetSquare);
+    int targetRank = board.getRank(targetSquare);
     int targetFile = board.getFile(targetSquare);
-
-    int rank = sourceRank;
-    int file = (sourceFile + targetFile) / 2;
-
-    int rookSquare = board.getSquare(file, rank);
-    if (board.getPiece(rookSquare) != ROOK)
+    if (board.getPiece(sourceSquare) != KING || board.getPiece(targetSquare) != ROOK)
     {
         return false;
     }
-
-    if (board.getColor(rookSquare) != board.getColor(sourceSquare))
+    if (board.getColor(sourceSquare) != board.getColor(targetSquare))
     {
         return false;
     }
-
-    if (board.getPiece(sourceSquare) != KING || board.getPiece(rookSquare) != ROOK)
+    if (sourceRank != targetRank)
     {
         return false;
     }
-
-    if (board.getColor(sourceSquare) != board.getColor(rookSquare))
-    {
+    if (std::abs(sourceFile - targetFile) != 4)
+    {    
         return false;
     }
+    return true;
+}
 
+bool Move::isCastlingLegal(const Chessboard& board, int sourceSquare, int targetSquare)
+{
     if (board.isKingInCheck(board.getColor(sourceSquare)))
     {
         return false;
     }
 
-    if (!board.isPathClear(sourceSquare, rookSquare))
+    if (!board.isPathClear(sourceSquare, targetSquare))
     {
         return false;
     }
-
     return true;
 }
-
-
 
 bool Move::isMoveLegal(const Chessboard &board, int sourceSquare, int targetSquare)
 {
     Color color = board.getColor(sourceSquare);
     Piece piece = board.getPiece(sourceSquare);
 
+
+    if (lilCastlingMove(board, sourceSquare, targetSquare) || bigCastlingMove(board, sourceSquare, targetSquare))
+    {
+        return isCastlingLegal(board, sourceSquare, targetSquare);
+    }
+
+
     if (board.getPiece(targetSquare) != EMPTY && board.getColor(targetSquare) == color)
     {
         return false;
-    }
-
-    if (isCastlingMove(board, sourceSquare, targetSquare))
-    {
-        return isCastlingLegal(board, sourceSquare, targetSquare);
     }
 
     switch (piece)

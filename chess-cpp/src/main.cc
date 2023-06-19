@@ -9,10 +9,15 @@ int main()
     //board.loadFEN("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR"); // 20
     //board.loadFEN("8/8/8/8/8/8/PPPPPPPP/RNBQKBNR"); // 20
     //board.loadFEN("rnbq1k1r/pp1Pbppp/2p5/8/2B5/8/PPP1NnPP/RNBQK2R");//44
-    board.loadFEN("8/8/8/8/8/8/8/4K2R");//19 normalement
+    //board.loadFEN("8/8/8/8/8/8/8/4K2R");//14 c bon  normalement
+    board.loadFEN("r3k2r/p1ppqpb1/bn2pnp1/3PN3/1p2P3/2N2Q1p/PPPBBPPP/R3K2R");//48 
+
 
     //board.loadFEN("8/2p5/3p4/KP5r/1R3p1k/8/4P1P1/8");//14
-    //board.loadFEN("8/8/b7/8/8/8/8/8");//14
+    
+    //board.loadFEN("8/8/8/8/8/8/8/7R");//14
+    //board.loadFEN("8/8/8/8/8/8/8/4K3");//14
+
     board.prettyPrint();
 
     //int sol = 0;
@@ -32,17 +37,16 @@ int main()
     }*/
 
     //board.setPiece(17, PAWN, BLACK);
-    std::cout << Move::isPawnMoveLegal(board, 8, 17, WHITE) << std::endl;
+    //std::cout << Move::isPawnMoveLegal(board, 8, 17, WHITE) << std::endl;
     
     //board.setPiece(24, BISHOP, WHITE);
     //board.setPiece(8, BISHOP, WHITE);
     //board.prettyPrint();
 
 
-    int square  = 40;
-    std::vector<int> legalMoves = Move::getLegalMoves(board, square);
-    std::cout << legalMoves.size() << std::endl;
-
+    //int square  = 40;
+    //std::vector<int> legalMoves = Move::getLegalMoves(board, square);
+    //std::cout << legalMoves.size() << std::endl;
 
     std::vector<int> all = Move::generateAllLegalMoves(board);
     std::cout << all.size() << std::endl;

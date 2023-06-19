@@ -15,7 +15,8 @@ public:
     static void generateKingMoves(const Chessboard &board, int square, std::vector<int> &moves);
 
 
-    static bool isCastlingMove(const Chessboard& board, int sourceSquare, int targetSquare);
+    static bool lilCastlingMove(const Chessboard& board, int sourceSquare, int targetSquare);
+    static bool bigCastlingMove(const Chessboard& board, int sourceSquare, int targetSquare);
     static bool isCastlingLegal(const Chessboard& board, int sourceSquare, int targetSquare);
     //static bool isEnPassantMove(const Chessboard& board, int sourceSquare, int targetSquare);
 
