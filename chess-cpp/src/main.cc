@@ -58,11 +58,6 @@ int main(int argc, char *argv[])
 
         std::cout<<"depth "<<depth<<"depth"<<std::endl;
 
-        std::cout<<"depth "<<stoi(depth)<<"depth"<<std::endl;
-
-    // exemple :
-    // rnbq1k1r/pp1Pbppp/2p5/8/2B5/8/PPP1NnPP/RNBQK2R w KQ - 1 8 1
-
     Chessboard board;
     if (playerToMove == "w")
     {
@@ -114,7 +109,11 @@ int main(int argc, char *argv[])
     }
     //DONE/ faire avec un fichier pour avoir le mm test qque dans le sujet
     //DONE/ faire bien le perft et que ca soit lui qui renvoit le bon bail
+
+    ///avoir tt les legals move 
+
     // pas oublier de gere le roque dans le perft
+    
     /// reste le en passant a gerer, puis la promotion
 
     // perft fait uniquement pour la depth 1, pas oublier de gere le reste
@@ -130,8 +129,6 @@ int main(int argc, char *argv[])
         std::cout << Move::getSquareName(all[i]) << " ";
                 //std::cout <<all[i] << " ";
     }
-
-    std::cout << "oooooooooooooooooooooooooo\n\n"<<Move::isMoveLegal(board,8,16)<<"\n\n";
 
     int result = perft(board, stoi(depth));
     std::cout << std::endl << "perft :"<< result << std::endl;

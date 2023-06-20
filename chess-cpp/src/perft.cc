@@ -5,17 +5,24 @@
 int perft(Chessboard &board, int depth)
 {
     if (depth == 0){return 1;}
-    if (depth == 1){
-        return (Move::generateAllLegalMoves(board)).size();
-    }
-
+    
     int solution = 0;
-    for (int fromSquare = 0; fromSquare < Chessboard::Size * Chessboard::Size; ++fromSquare)
+    std::vector<int> sol = Move::generateAllLegalMoves(board);
+    /*if (depth == 1){
+       return ((Move::generateAllLegalMoves(board)).size()/2);
+    }*/
+
+    int len = (int)sol.size();
+    int i;
+    //int j;
+    for ( i=0 ; i < len; i+=2)
     {
-        //Piece piece = board.getPiece(fromSquare);
-        for (int toSquare = 0; toSquare < Chessboard::Size * Chessboard::Size; ++toSquare)
-        {
-            if (board.isValidSquare(toSquare) && board.isValidMove(fromSquare, toSquare)&&Move::isMoveLegal(board, fromSquare, toSquare))
+        int fromSquare = sol[i];
+        std::cout<<fromSquare<<"\n";
+        //for( j=1 ; j < len; j+=2)
+        
+            int toSquare = sol[i+1];
+             //if (board.isValidSquare(toSquare))// && board.isValidMove(fromSquare, toSquare) && Move::isMoveLegal(board, fromSquare, toSquare))
             {
                 Piece capturedPiece = board.getPiece(toSquare);
                 Color capturedPieceColor = board.getColor(toSquare);
@@ -24,7 +31,28 @@ int perft(Chessboard &board, int depth)
                 board.movePiece(fromSquare, toSquare);
                 if (!board.isKingInCheck(col))
                 {
-                    //std::cout << "dedans";
+                    solution += perft(board, depth - 1);
+                }
+                ///// pas obublier de changer le boolean pr le roque
+                board.undoMove(fromSquare, toSquare, capturedPiece, capturedPieceColor);
+            }
+        
+    }
+/*
+    for (int fromSquare = 0; fromSquare < Chessboard::Size * Chessboard::Size; ++fromSquare)
+    {
+        //Piece piece = board.getPiece(fromSquare);
+        for (int toSquare = 0; toSquare < Chessboard::Size * Chessboard::Size; ++toSquare)
+        {
+            if (board.isValidSquare(toSquare) && board.isValidMove(fromSquare, toSquare) && Move::isMoveLegal(board, fromSquare, toSquare))
+            {
+                Piece capturedPiece = board.getPiece(toSquare);
+                Color capturedPieceColor = board.getColor(toSquare);
+                Color col = board.getColor(fromSquare);
+
+                board.movePiece(fromSquare, toSquare);
+                if (!board.isKingInCheck(col))
+                {
                     solution += perft(board, depth - 1);
                 }
                 ///// pas obublier de changer le boolean pr le roque
@@ -32,6 +60,7 @@ int perft(Chessboard &board, int depth)
             }
         }
     }
+*/
     return solution;
 }
 

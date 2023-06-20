@@ -227,7 +227,6 @@ void Move::generateKingMoves(const Chessboard &board, int square, std::vector<in
 ////petit roque, pas oublier de faire le grand roque
 bool Move::lilCastlingMove(const Chessboard& board, int sourceSquare, int targetSquare)
 {
-    //std::cout<<"ROQUE"<<std::endl;
     int sourceRank = board.getRank(sourceSquare);
     int sourceFile = board.getFile(sourceSquare);
     int targetRank = board.getRank(targetSquare);
@@ -251,13 +250,7 @@ bool Move::lilCastlingMove(const Chessboard& board, int sourceSquare, int target
     if (std::abs(sourceFile - targetFile) != 3)
     {    
         return false;
-    }/*
-    std::cout<<"COLUMN"<<std::endl;
-    std::cout<<"rank fin : "<<targetRank<<std::endl;
-    std::cout<<"col fin  : "<<targetFile<<std::endl;
-    std::cout<<"rank debut : "<<sourceRank<<std::endl;
-    std::cout<<"col  debut : "<<sourceFile<<std::endl;
-    std::cout<<"VALID"<<std::endl;*/
+    }
     return true;
 }
 
@@ -535,7 +528,7 @@ std::vector<int> Move::generateAllLegalMoves(const Chessboard &board)
                 }
                 else{
                     if (isMoveLegal(board, sourceSquare, targetSquare)) {
-                        //allLegalMoves.push_back(sourceSquare);
+                        allLegalMoves.push_back(sourceSquare);
                         allLegalMoves.push_back(targetSquare);
                     }
                 }
