@@ -22,7 +22,7 @@ int main(int argc, char* argv[])
         std::cout << "Usage : ./chessengine --perft arg" << std::endl;
         return 0;
     }
-    if (strcmp(argv[1],"--perft"))
+    if (!!strcmp(argv[1],"--perft"))
     {
         std::cout << "FUCK YOU" << std::endl;
         return 0;
@@ -32,8 +32,9 @@ int main(int argc, char* argv[])
     std::string castling ;//argv[4];
 
 
-    std::ifstream file("filename.txt");
+    std::ifstream file(argv[1]);
     std::string line;
+    std::cout << line<< "finito" ;
     if (std::getline(file, line))
     {
         std::istringstream iss(line);
