@@ -307,7 +307,7 @@ bool Move::isMoveLegal(const Chessboard &board, int sourceSquare, int targetSqua
     Color color = board.getColor(sourceSquare);
     Piece piece = board.getPiece(sourceSquare);
 
-    /*
+    
     if (((color == WHITE) && ::Chessboard::castlingWK==true) || ((color == BLACK) && ::Chessboard::castlingBK==true))
     {
         if (lilCastlingMove(board, sourceSquare, targetSquare))
@@ -321,7 +321,7 @@ bool Move::isMoveLegal(const Chessboard &board, int sourceSquare, int targetSqua
         {
         return isCastlingLegal(board, sourceSquare, targetSquare);
         }
-    }*/
+    }
     
 
     if (board.getPiece(targetSquare) != EMPTY && board.getColor(targetSquare) == color)
@@ -332,6 +332,7 @@ bool Move::isMoveLegal(const Chessboard &board, int sourceSquare, int targetSqua
     switch (piece)
     {
     case 1:
+        //std::cout << "pawn";
         return isPawnMoveLegal(board, sourceSquare, targetSquare, color);
     case 2:
         //std::cout << "rook";
@@ -409,6 +410,7 @@ bool Move::isRookMoveLegal(const Chessboard &board, int sourceSquare, int target
 
     if (sourceRank == targetRank || sourceFile == targetFile)
     {
+
         if (!board.isPathClear(sourceSquare,targetSquare))
         {
             return false;

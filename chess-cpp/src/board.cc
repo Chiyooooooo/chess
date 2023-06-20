@@ -191,6 +191,7 @@ bool Chessboard::isPathClear(int fromSquare, int toSquare) const
 
     while (currentSquare != toSquare)
     {
+        //std::cout<<getFile(currentSquare) + fileDir<<"   "<< getRank(currentSquare) + rankDir<< "\n";
         currentSquare = getSquare(getFile(currentSquare) + fileDir, getRank(currentSquare) + rankDir);
         if (currentSquare != toSquare && getPiece(currentSquare) != EMPTY)
             return false;
