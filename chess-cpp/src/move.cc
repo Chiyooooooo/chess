@@ -307,6 +307,7 @@ bool Move::isMoveLegal(const Chessboard &board, int sourceSquare, int targetSqua
     Color color = board.getColor(sourceSquare);
     Piece piece = board.getPiece(sourceSquare);
 
+    /*
     if (((color == WHITE) && ::Chessboard::castlingWK==true) || ((color == BLACK) && ::Chessboard::castlingBK==true))
     {
         if (lilCastlingMove(board, sourceSquare, targetSquare))
@@ -320,7 +321,7 @@ bool Move::isMoveLegal(const Chessboard &board, int sourceSquare, int targetSqua
         {
         return isCastlingLegal(board, sourceSquare, targetSquare);
         }
-    }
+    }*/
     
 
     if (board.getPiece(targetSquare) != EMPTY && board.getColor(targetSquare) == color)

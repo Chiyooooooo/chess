@@ -1,6 +1,12 @@
 #include "move.hh"
 #include "perft.hh"
 
+#include <fstream>
+#include <iostream>
+#include <sstream>
+#include <string>
+#include <vector>
+#include <cstring>
 
 //create a new main that parse a FEN notation and store the color of the player to move,  the position of the pieces on the board, the castling ability for each player and the en passant target square
 int main(int argc, char* argv[])
@@ -10,14 +16,60 @@ int main(int argc, char* argv[])
         std::cerr << "failed args" << std::endl;
         return 1;
     }
+    if (!strcmp(argv[1],"-h"))
+    {
+        std::cout << argv[1];
+        std::cout << "Usage : ./chessengine --perft arg" << std::endl;
+        return 0;
+    }
+    if (strcmp(argv[1],"--perft"))
+    {
+        std::cout << "FUCK YOU" << std::endl;
+        return 0;
+    }
+    std::string fen ;//argv[2];
+    std::string playerToMove ;//argv[3];
+    std::string castling ;//argv[4];
+
+
+    std::ifstream file("filename.txt");
+    std::string line;
+    if (std::getline(file, line))
+    {
+        std::istringstream iss(line);
+        std::vector<std::string> tokens;
+
+        std::string token;
+        while (std::getline(iss, token, ' '))
+        {
+            tokens.push_back(token);
+        }
+
+        if (tokens.size() >= 4)
+        {
+            fen = tokens[0];
+            playerToMove = tokens[1];
+            castling = tokens[2];
+            //std::string token4 = tokens[3];
+
+            // Print the variables
+            std::cout << fen << std::endl;
+            std::cout << "Token 2: " << playerToMove << std::endl;
+            std::cout << "Token 3: " << castling << std::endl;
+        }
+        else
+        {
+            std::cerr << "Not enough tokens in the line." << std::endl;
+        }
+    }
+
     // exemple :
     //rnbq1k1r/pp1Pbppp/2p5/8/2B5/8/PPP1NnPP/RNBQK2R w KQ - 1 8 1
 
     Chessboard board;
-    std::string fen = argv[2];
 
-    std::string playerToMove = argv[3];
     //Color PlayerToMove;
+
     if (playerToMove == "w")
     {
         board.PlayerToMove = WHITE;
@@ -32,7 +84,6 @@ int main(int argc, char* argv[])
         return 1;
     }
 
-    std::string castling = argv[4];
     if (castling == "-")
     {
         board.castlingWK = false;
@@ -71,9 +122,6 @@ int main(int argc, char* argv[])
 // faire bien le perft et que ca soit lui qui renvoit le bon bail 
 // pas oublier de gere le roque dans le perft
 ///reste le en passant a gerer, puis la promotion
-//
-
-
 
     board.loadFEN(fen);
     board.prettyPrint();
@@ -90,13 +138,61 @@ int main(int argc, char* argv[])
     return 0;
 }
 
+/*
+int main()
+{
+    std::ifstream file("filename.txt");
+    if (!file)
+    {
+        std::cerr << "Failed to open file." << std::endl;
+        return 1;
+    }
 
+    std::string line;
+    if (std::getline(file, line))
+    {
+        std::istringstream iss(line);
+        std::vector<std::string> tokens;
+
+        // Split the line by space (' ')
+        std::string token;
+        while (std::getline(iss, token, ' '))
+        {
+            tokens.push_back(token);
+        }
+
+        if (tokens.size() >= 4)
+        {
+            std::string token1 = tokens[0];
+            std::string token2 = tokens[1];
+            std::string token3 = tokens[2];
+            std::string token4 = tokens[3];
+
+            // Print the variables
+            std::cout << "Token 1: " << token1 << std::endl;
+            std::cout << "Token 2: " << token2 << std::endl;
+            std::cout << "Token 3: " << token3 << std::endl;
+            std::cout << "Token 4: " << token4 << std::endl;
+        }
+        else
+        {
+            std::cerr << "Not enough tokens in the line." << std::endl;
+        }
+    }
+    else
+    {
+        std::cerr << "File is empty." << std::endl;
+    }
+
+    return 0;
+}
+*/
 
 /*
 int main()
 {
     Chessboard board;
-
+    
     //board.loadFEN("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR"); // 20
     //board.loadFEN("8/8/8/8/8/8/PPPPPPPP/RNBQKBNR"); // 20
     //board.loadFEN("rnbq1k1r/pp1Pbppp/2p5/8/2B5/8/PPP1NnPP/RNBQK2R");//44
