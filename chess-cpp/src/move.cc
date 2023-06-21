@@ -249,6 +249,7 @@ bool Move::lilCastlingMove(const Chessboard &board, int sourceSquare, int target
     {
         return false;
     }
+
     if (!board.isPathClear(sourceSquare, targetSquare))
     {
         return false;
@@ -262,6 +263,7 @@ bool Move::bigCastlingMove(const Chessboard &board, int sourceSquare, int target
     int sourceFile = board.getFile(sourceSquare);
     int targetRank = board.getRank(targetSquare);
     int targetFile = board.getFile(targetSquare);
+
     if (board.getPiece(sourceSquare) != KING || board.getPiece(targetSquare) != ROOK)
     {
         return false;
@@ -278,6 +280,7 @@ bool Move::bigCastlingMove(const Chessboard &board, int sourceSquare, int target
     {
         return false;
     }
+
     if (!board.isPathClear(sourceSquare, targetSquare))
     {
         return false;
@@ -360,9 +363,9 @@ bool Move::isPromotionLegal(const Chessboard &board, int sourceSquare, int targe
     Color color = board.getColor(sourceSquare);
     int targetRank =board.getRank(targetSquare);
 
-    if (color == WHITE && targetRank == 8)
+    if (color == WHITE && targetRank == 7)
         return true;
-    else if (color == BLACK && targetRank == 1)
+    else if (color == BLACK && targetRank == 0)
         return true;
 
     return false;
@@ -372,26 +375,25 @@ bool Move::isMoveLegal(const Chessboard &board, int sourceSquare, int targetSqua
 {
     Color color = board.getColor(sourceSquare);
     Piece piece = board.getPiece(sourceSquare);
-
-    if (((color == WHITE) && ::Chessboard::castlingWK == true) || ((color == BLACK) && ::Chessboard::castlingBK == true))
-    {
-        if (lilCastlingMove(board, sourceSquare, targetSquare))
-        {
-            std::cout << "PETIT ROQUE DONE" << std::endl;
-            return isCastlingLegal(board, sourceSquare, targetSquare);
-        }
-    }
+    
     if (((color == WHITE) && ::Chessboard::castlingWQ == true) || ((color == BLACK) && ::Chessboard::castlingBQ == true))
     {
         if (bigCastlingMove(board, sourceSquare, targetSquare))
         {
-            std::cout << "FUCKKKKK" << std::endl;
             return isCastlingLegal(board, sourceSquare, targetSquare);
         }
     }
-    if (Chessboard::enPA != "-")
+    if (((color == WHITE) && ::Chessboard::castlingWK == true) || ((color == BLACK) && ::Chessboard::castlingBK == true))
     {
-        //std::cout<<"PAPAPAPAPAPAAPPAPAAAPAPAPAPAP"<<Chessboard::enPA<<std::endl;
+        if (lilCastlingMove(board, sourceSquare, targetSquare))
+        {
+            return isCastlingLegal(board, sourceSquare, targetSquare);
+        }
+    }
+
+    if (Chessboard::enPA != "-") ////dmd utilite de ce truc
+    {
+        std::cout<<"PAPAPAPAPAPAAPPAPAAAPAPAPAPAP"<<Chessboard::enPA<<std::endl;
         return isEnPassantMove(board, sourceSquare, targetSquare);
     }
     
@@ -420,6 +422,7 @@ bool Move::isMoveLegal(const Chessboard &board, int sourceSquare, int targetSqua
     case 6:
         // std::cout << "king";
         return isKingMoveLegal(board, sourceSquare, targetSquare);
+
     default:
         // std::cout << "RIEN";
         return false;
@@ -481,7 +484,6 @@ bool Move::isRookMoveLegal(const Chessboard &board, int sourceSquare, int target
 
     if (sourceRank == targetRank || sourceFile == targetFile)
     {
-
         if (!board.isPathClear(sourceSquare, targetSquare))
         {
             return false;
@@ -506,10 +508,8 @@ bool Move::isRookMoveLegal(const Chessboard &board, int sourceSquare, int target
             currentRank += rankStep;
             currentFile += fileStep;
         }
-
         return true;
     }
-
     return false;
 }
 

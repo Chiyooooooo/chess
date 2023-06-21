@@ -112,7 +112,7 @@ int main(int argc, char *argv[])
     }
     // DONE/ faire avec un fichier pour avoir le mm test qque dans le sujet
     // DONE/ faire bien le perft et que ca soit lui qui renvoit le bon bail
-    //DONE/ avoir tt les legals move, les retester en speed et bien tt checker
+    // DONE/ avoir tt les legals move, les retester en speed et bien tt checker
 
     // pas oublier de gere le roque dans le perft
 
@@ -121,12 +121,12 @@ int main(int argc, char *argv[])
     // perft fait uniquement pour la depth 1, pas oublier de gere le reste
 
     //ojd : fix le enpassant, fix le 44, fix la promotion
-
+///44 manque trois prom
 
     board.loadFEN(fen);
     board.prettyPrint();
 
-    std::vector<int> all = Move::generateAllLegalMoves(board, Chessboard::PlayerToMove);
+    /*std::vector<int> all = Move::generateAllLegalMoves(board, Chessboard::PlayerToMove);
     //std::cout << all.size() << std::endl;
 
     for (unsigned long i = 0; i < all.size(); ++i)
@@ -134,6 +134,7 @@ int main(int argc, char *argv[])
         std::cout << Move::getSquareName(all[i]) << " ";
         // std::cout <<all[i] << " ";
     }
+    */
     int result = perft(board, stoi(depth), Chessboard::PlayerToMove);
     std::cout << std::endl << "perft :" << result << std::endl;
 

@@ -16,21 +16,77 @@ int perft(Chessboard &board, int depth, Color currentColor)
     /*if (depth == 1){
        return ((Move::generateAllLegalMoves(board)).size()/2);
     }*/
-
     int len = (int)sol.size();
-    //std::cout<< len;
     int i;
     for (i = 0; i < len; i += 2)
     {
         int fromSquare = sol[i];
         int toSquare = sol[i + 1];
-        std::cout << fromSquare << "-" << toSquare << "\n";
-        // if (board.isValidSquare(toSquare))// && board.isValidMove(fromSquare, toSquare) && Move::isMoveLegal(board, fromSquare, toSquare))
+        
+       std::cout << Move::getSquareName(fromSquare) << "" << Move::getSquareName(toSquare);
+        // if (board.isValidSquare(toSquare) && Move::isMoveLegal(board, fromSquare, toSquare))
         {
             Piece capturedPiece = board.getPiece(toSquare);
             Color capturedPieceColor = board.getColor(toSquare);
             Color col = board.getColor(fromSquare);
 
+
+
+            if ( Move::lilCastlingMove(board, fromSquare, toSquare) && fromSquare==4 && toSquare==7)
+            {
+                if (Move::isCastlingLegal(board, fromSquare, toSquare)){
+                    board.movePiece(fromSquare, 6);
+                    board.movePiece(7,5);
+                    solution += perft(board, depth - 1, (currentColor == WHITE) ? BLACK : WHITE);
+                    board.undoMove(fromSquare, 6, EMPTY, EMPTY_COLOR); //a voir mais normalement ok
+                    board.undoMove(7,5,EMPTY, EMPTY_COLOR);
+            }}
+
+            if ( Move::bigCastlingMove(board, fromSquare, toSquare) && (fromSquare==4 && toSquare==0))
+            {
+                if (Move::isCastlingLegal(board, fromSquare, toSquare)){
+                    board.movePiece(fromSquare, 2);
+                    board.movePiece(0,3);
+                    solution += perft(board, depth - 1, (currentColor == WHITE) ? BLACK : WHITE);
+                    board.undoMove(fromSquare, 2, EMPTY, EMPTY_COLOR);
+                    board.undoMove(0,3,EMPTY, EMPTY_COLOR);
+            }}
+
+            if ( Move::isPromotionLegal(board, fromSquare, toSquare)){
+                board.movePiece(fromSquare, toSquare);
+                board.setPiece(toSquare,ROOK ,col);
+                if (!board.isKingInCheck(col))
+                {
+                solution += perft(board, depth - 1, (currentColor == WHITE) ? BLACK : WHITE);
+                }
+                board.undoMove(fromSquare, toSquare, capturedPiece, capturedPieceColor);
+
+                board.movePiece(fromSquare, toSquare);
+                board.setPiece(toSquare,KNIGHT ,col);
+                if (!board.isKingInCheck(col))
+                {
+                solution += perft(board, depth - 1, (currentColor == WHITE) ? BLACK : WHITE);
+                }
+                board.undoMove(fromSquare, toSquare, capturedPiece, capturedPieceColor);
+
+                board.movePiece(fromSquare, toSquare);
+                board.setPiece(toSquare,BISHOP,col);
+                if (!board.isKingInCheck(col))
+                {
+                solution += perft(board, depth - 1, (currentColor == WHITE) ? BLACK : WHITE);
+                }
+                board.undoMove(fromSquare, toSquare, capturedPiece, capturedPieceColor);
+
+                board.movePiece(fromSquare, toSquare);
+                board.setPiece(toSquare,QUEEN,col);
+                if (!board.isKingInCheck(col))
+                {
+                solution += perft(board, depth - 1, (currentColor == WHITE) ? BLACK : WHITE);
+                }
+                board.undoMove(fromSquare, toSquare, capturedPiece, capturedPieceColor);
+            }
+
+            else {
             board.movePiece(fromSquare, toSquare);
             if (!board.isKingInCheck(col))
             {
@@ -38,6 +94,7 @@ int perft(Chessboard &board, int depth, Color currentColor)
             }
             ///// pas obublier de changer le boolean pr le roque
             board.undoMove(fromSquare, toSquare, capturedPiece, capturedPieceColor);
+            }
         }
     }
     /*
