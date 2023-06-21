@@ -30,6 +30,7 @@ int main(int argc, char *argv[])
     std::string playercolor; // argv[3];
     std::string castling;     // argv[4];
     std::string depth;
+    std::string enPassant;
 
     std::ifstream file(argv[2]);
     // std::cout<<argv[1]<<"fin";
@@ -52,8 +53,11 @@ int main(int argc, char *argv[])
     fen = tokens[0];
     playercolor = tokens[1];
     castling = tokens[2];
-    // enpassant = tokens[3];  /////l e enpassant
-    depth = tokens[6];
+    enPassant = tokens[3];  ///// le enpassant
+    
+
+    
+    depth = tokens.back();
 
     std::cout << "depth " << depth << "depth" << std::endl;
 
@@ -108,14 +112,16 @@ int main(int argc, char *argv[])
     }
     // DONE/ faire avec un fichier pour avoir le mm test qque dans le sujet
     // DONE/ faire bien le perft et que ca soit lui qui renvoit le bon bail
-
-    /// avoir tt les legals move, les retester en speed et bien tt checker
+    //DONE/ avoir tt les legals move, les retester en speed et bien tt checker
 
     // pas oublier de gere le roque dans le perft
 
     /// reste le en passant a gerer, puis la promotion
 
     // perft fait uniquement pour la depth 1, pas oublier de gere le reste
+
+    //ojd : fix le enpassant, fix le 44, fix la promotion
+
 
     board.loadFEN(fen);
     board.prettyPrint();

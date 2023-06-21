@@ -297,7 +297,75 @@ bool Move::isCastlingLegal(const Chessboard &board, int sourceSquare, int target
     {
         return false;
     }
+    std::cout << "ROQUE DONE" << std::endl;
+
     return true;
+}
+
+bool Move::isEnPassantMove(const Chessboard& board, int sourceSquare, int targetSquare)
+{
+    int sourceRank = board.getRank(sourceSquare);
+    int sourceFile = board.getFile(sourceSquare);
+    int targetRank = board.getRank(targetSquare);
+    int targetFile = board.getFile(targetSquare);
+
+    if (board.getPiece(sourceSquare) != PAWN || board.getPiece(targetSquare) != EMPTY)
+    {
+        return false;
+    }
+
+    if (board.getColor(sourceSquare) == board.getColor(targetSquare))
+    {
+        return false;
+    }
+
+    if (sourceRank != targetRank)
+    {
+        return false;
+    }
+
+    if (std::abs(sourceFile - targetFile) != 1)
+    {
+        return false;
+    }
+
+    if (board.getColor(sourceSquare) == WHITE && targetRank != 5)
+    {
+        return false;
+    }
+
+    if (board.getColor(sourceSquare) == BLACK && targetRank != 2)
+    {
+        return false;
+    }
+
+    int enPassantSquare = board.getSquare(targetFile, sourceRank);
+    if (board.getPiece(enPassantSquare) != PAWN || board.getColor(enPassantSquare) == board.getColor(sourceSquare))
+    {
+        return false;
+    }
+    if (board.isKingInCheck(board.getColor(sourceSquare)))
+    {
+        return false;
+    }
+    return true;
+}
+
+
+bool Move::isPromotionLegal(const Chessboard &board, int sourceSquare, int targetSquare)
+{
+    if (board.getPiece(sourceSquare) != PAWN)
+        return false;
+
+    Color color = board.getColor(sourceSquare);
+    int targetRank =board.getRank(targetSquare);
+
+    if (color == WHITE && targetRank == 8)
+        return true;
+    else if (color == BLACK && targetRank == 1)
+        return true;
+
+    return false;
 }
 
 bool Move::isMoveLegal(const Chessboard &board, int sourceSquare, int targetSquare)
@@ -321,7 +389,12 @@ bool Move::isMoveLegal(const Chessboard &board, int sourceSquare, int targetSqua
             return isCastlingLegal(board, sourceSquare, targetSquare);
         }
     }
-
+    if (Chessboard::enPA != "-")
+    {
+        //std::cout<<"PAPAPAPAPAPAAPPAPAAAPAPAPAPAP"<<Chessboard::enPA<<std::endl;
+        return isEnPassantMove(board, sourceSquare, targetSquare);
+    }
+    
     if (board.getPiece(targetSquare) != EMPTY && board.getColor(targetSquare) == color)
     {
         return false;

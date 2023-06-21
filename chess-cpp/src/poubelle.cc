@@ -100,4 +100,59 @@ int main()
 
     return 0;
 }
+
+
+
+
+
+
+
+
+
+/////////////////////
+bool Move::isEnPassantMove(const Chessboard &board, int sourceSquare, int targetSquare)
+{
+    // Check if the source piece is a pawn
+    if (board.getPiece(sourceSquare) != PAWN)
+        return false;
+
+    Color color = board.getColor(sourceSquare);
+    int targetRank = getRank(targetSquare);
+
+    // Check if the target square is a valid en passant capture square
+    if (color == WHITE && targetRank == Rank_6)
+    {
+        int enPassantSquare = targetSquare - Chessboard::Size;
+        return (board.getPiece(enPassantSquare) == PAWN && board.getColor(enPassantSquare) == BLACK);
+    }
+    else if (color == BLACK && targetRank == Rank_3)
+    {
+        int enPassantSquare = targetSquare + Chessboard::Size;
+        return (board.getPiece(enPassantSquare) == PAWN && board.getColor(enPassantSquare) == WHITE);
+    }
+
+    return false;
+}
+
+bool Move::isPromotionLegal(const Chessboard &board, int sourceSquare, int targetSquare)
+{
+    // Check if the source piece is a pawn
+    if (board.getPiece(sourceSquare) != PAWN)
+        return false;
+
+    Color color = board.getColor(sourceSquare);
+    int targetRank = getRank(targetSquare);
+
+    // Check if the target square is a valid promotion square
+    if (color == WHITE && targetRank == Rank_8)
+        return true;
+    else if (color == BLACK && targetRank == Rank_1)
+        return true;
+
+    return false;
+}
+
 */
+
+
+
