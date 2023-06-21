@@ -2,65 +2,67 @@
 #include "perft.hh"
 #include "move.hh"
 
-int perft(Chessboard &board, int depth)
+int perft(Chessboard &board, int depth, Color currentColor)
 {
-    if (depth == 0){return 1;}
-    
+    std::cout << "\n";
+
+    if (depth == 0)
+    {
+        return 1;
+    }
+
     int solution = 0;
-    std::vector<int> sol = Move::generateAllLegalMoves(board);
+    std::vector<int> sol = Move::generateAllLegalMoves(board, currentColor);
     /*if (depth == 1){
        return ((Move::generateAllLegalMoves(board)).size()/2);
     }*/
 
     int len = (int)sol.size();
+    //std::cout<< len;
     int i;
-    //int j;
-    for ( i=0 ; i < len; i+=2)
+    for (i = 0; i < len; i += 2)
     {
         int fromSquare = sol[i];
-        std::cout<<fromSquare<<"\n";
-        //for( j=1 ; j < len; j+=2)
-        
-            int toSquare = sol[i+1];
-             //if (board.isValidSquare(toSquare))// && board.isValidMove(fromSquare, toSquare) && Move::isMoveLegal(board, fromSquare, toSquare))
-            {
-                Piece capturedPiece = board.getPiece(toSquare);
-                Color capturedPieceColor = board.getColor(toSquare);
-                Color col = board.getColor(fromSquare);
-
-                board.movePiece(fromSquare, toSquare);
-                if (!board.isKingInCheck(col))
-                {
-                    solution += perft(board, depth - 1);
-                }
-                ///// pas obublier de changer le boolean pr le roque
-                board.undoMove(fromSquare, toSquare, capturedPiece, capturedPieceColor);
-            }
-        
-    }
-/*
-    for (int fromSquare = 0; fromSquare < Chessboard::Size * Chessboard::Size; ++fromSquare)
-    {
-        //Piece piece = board.getPiece(fromSquare);
-        for (int toSquare = 0; toSquare < Chessboard::Size * Chessboard::Size; ++toSquare)
+        int toSquare = sol[i + 1];
+        std::cout << fromSquare << "-" << toSquare << "\n";
+        // if (board.isValidSquare(toSquare))// && board.isValidMove(fromSquare, toSquare) && Move::isMoveLegal(board, fromSquare, toSquare))
         {
-            if (board.isValidSquare(toSquare) && board.isValidMove(fromSquare, toSquare) && Move::isMoveLegal(board, fromSquare, toSquare))
-            {
-                Piece capturedPiece = board.getPiece(toSquare);
-                Color capturedPieceColor = board.getColor(toSquare);
-                Color col = board.getColor(fromSquare);
+            Piece capturedPiece = board.getPiece(toSquare);
+            Color capturedPieceColor = board.getColor(toSquare);
+            Color col = board.getColor(fromSquare);
 
-                board.movePiece(fromSquare, toSquare);
-                if (!board.isKingInCheck(col))
-                {
-                    solution += perft(board, depth - 1);
-                }
-                ///// pas obublier de changer le boolean pr le roque
-                board.undoMove(fromSquare, toSquare, capturedPiece, capturedPieceColor);
+            board.movePiece(fromSquare, toSquare);
+            if (!board.isKingInCheck(col))
+            {
+                solution += perft(board, depth - 1, (currentColor == WHITE) ? BLACK : WHITE);
             }
+            ///// pas obublier de changer le boolean pr le roque
+            board.undoMove(fromSquare, toSquare, capturedPiece, capturedPieceColor);
         }
     }
-*/
+    /*
+        for (int fromSquare = 0; fromSquare < Chessboard::Size * Chessboard::Size; ++fromSquare)
+        {
+            //Piece piece = board.getPiece(fromSquare);
+            for (int toSquare = 0; toSquare < Chessboard::Size * Chessboard::Size; ++toSquare)
+            {
+                if (board.isValidSquare(toSquare) && board.isValidMove(fromSquare, toSquare) && Move::isMoveLegal(board, fromSquare, toSquare))
+                {
+                    Piece capturedPiece = board.getPiece(toSquare);
+                    Color capturedPieceColor = board.getColor(toSquare);
+                    Color col = board.getColor(fromSquare);
+
+                    board.movePiece(fromSquare, toSquare);
+                    if (!board.isKingInCheck(col))
+                    {
+                        solution += perft(board, depth - 1);
+                    }
+                    ///// pas obublier de changer le boolean pr le roque
+                    board.undoMove(fromSquare, toSquare, capturedPiece, capturedPieceColor);
+                }
+            }
+        }
+    */
     return solution;
 }
 
@@ -90,12 +92,12 @@ public long perft(int depth){
         int n_moves = moves.size();
         long totalNodes = 0L;
 
-        if (depth == 1)                 
-            return n_moves;     
+        if (depth == 1)
+            return n_moves;
 
-        for (Move mv : moves){                  
-            BoardState undo = board.makeMove(mv);               
-            totalNodes += perft(depth - 1);         
+        for (Move mv : moves){
+            BoardState undo = board.makeMove(mv);
+            totalNodes += perft(depth - 1);
             board.undoMove(mv, undo);
         }
         return totalNodes;

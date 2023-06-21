@@ -26,9 +26,9 @@ int main(int argc, char *argv[])
         std::cout << "FUCK YOU" << std::endl;
         return 0;
     }
-    std::string fen; // argv[2];
-    std::string playerToMove; // argv[3];
-    std::string castling; // argv[4];
+    std::string fen;          // argv[2];
+    std::string playercolor; // argv[3];
+    std::string castling;     // argv[4];
     std::string depth;
 
     std::ifstream file(argv[2]);
@@ -41,29 +41,28 @@ int main(int argc, char *argv[])
     std::stringstream ss(line);
 
     std::string token;
-    int i =0;
+    int i = 0;
     while (std::getline(ss, token, ' '))
     {
-        std::cout<<"token "<< i << " : "<< token<< std::endl;
+        std::cout << "token " << i << " : " << token << std::endl;
         tokens.push_back(token);
         i++;
     }
 
+    fen = tokens[0];
+    playercolor = tokens[1];
+    castling = tokens[2];
+    // enpassant = tokens[3];  /////l e enpassant
+    depth = tokens[6];
 
-        fen = tokens[0];
-        playerToMove = tokens[1];
-        castling = tokens[2];
-        // enpassant = tokens[3];  /////l e enpassant
-        depth = tokens[6];
-
-        std::cout<<"depth "<<depth<<"depth"<<std::endl;
+    std::cout << "depth " << depth << "depth" << std::endl;
 
     Chessboard board;
-    if (playerToMove == "w")
+    if (playercolor == "w")
     {
         board.PlayerToMove = WHITE;
     }
-    else if (playerToMove == "b")
+    else if (playercolor == "b")
     {
         board.PlayerToMove = BLACK;
     }
@@ -107,13 +106,13 @@ int main(int argc, char *argv[])
             }
         }
     }
-    //DONE/ faire avec un fichier pour avoir le mm test qque dans le sujet
-    //DONE/ faire bien le perft et que ca soit lui qui renvoit le bon bail
+    // DONE/ faire avec un fichier pour avoir le mm test qque dans le sujet
+    // DONE/ faire bien le perft et que ca soit lui qui renvoit le bon bail
 
-    ///avoir tt les legals move 
+    /// avoir tt les legals move, les retester en speed et bien tt checker
 
     // pas oublier de gere le roque dans le perft
-    
+
     /// reste le en passant a gerer, puis la promotion
 
     // perft fait uniquement pour la depth 1, pas oublier de gere le reste
@@ -121,17 +120,16 @@ int main(int argc, char *argv[])
     board.loadFEN(fen);
     board.prettyPrint();
 
-    std::vector<int> all = Move::generateAllLegalMoves(board);
-    std::cout << all.size() << std::endl;
+    std::vector<int> all = Move::generateAllLegalMoves(board, Chessboard::PlayerToMove);
+    //std::cout << all.size() << std::endl;
 
     for (unsigned long i = 0; i < all.size(); ++i)
     {
         std::cout << Move::getSquareName(all[i]) << " ";
-                //std::cout <<all[i] << " ";
+        // std::cout <<all[i] << " ";
     }
-
-    int result = perft(board, stoi(depth));
-    std::cout << std::endl << "perft :"<< result << std::endl;
+    int result = perft(board, stoi(depth), Chessboard::PlayerToMove);
+    std::cout << std::endl << "perft :" << result << std::endl;
 
     return 0;
 }

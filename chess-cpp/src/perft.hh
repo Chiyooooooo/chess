@@ -9,6 +9,6 @@
 #include "board.hh"
 #include "move.hh"
 
-int perft(Chessboard &board, int depth);
+int perft(Chessboard &board, int depth, Color currentColor);
 
 #endif // PERFT_HH

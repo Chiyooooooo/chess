@@ -6,8 +6,6 @@
 #include <vector>
 #include <cmath>
 
-
-
 void Move::generateMoves(const Chessboard &board, int square, std::vector<int> &moves)
 {
     Piece piece = board.getPiece(square);
@@ -60,7 +58,7 @@ void Move::generatePawnMoves(const Chessboard &board, int square, Color color, s
             }
         }
     }
-    //capture autre piece ennemi
+    // capture autre piece ennemi
     int leftCaptureSquare = board.getSquare(file - 1, rank + forwardDir);
     int rightCaptureSquare = board.getSquare(file + 1, rank + forwardDir);
 
@@ -84,7 +82,7 @@ void Move::generateRookMoves(const Chessboard &board, int square, std::vector<in
 
     for (int f = 0; f < Chessboard::Size; ++f)
     {
-        if (f != file) //collumn
+        if (f != file) // collumn
         {
             int targetSquare = board.getSquare(f, rank);
             if (isMoveLegal(board, square, targetSquare))
@@ -96,7 +94,7 @@ void Move::generateRookMoves(const Chessboard &board, int square, std::vector<in
 
     for (int r = 0; r < Chessboard::Size; ++r)
     {
-        if (r != rank) //rang
+        if (r != rank) // rang
         {
             int targetSquare = board.getSquare(file, r);
             if (isMoveLegal(board, square, targetSquare))
@@ -132,20 +130,20 @@ void Move::generateBishopMoves(const Chessboard &board, int square, std::vector<
 {
     int rank = board.getRank(square);
     int file = board.getFile(square);
-        
+
     for (int offset = 1; offset < Chessboard::Size; ++offset)
     {
         int targetRank = rank + offset;
         int targetFile = file + offset;
-        int targetSquare = board.getSquare( targetFile, targetRank);
+        int targetSquare = board.getSquare(targetFile, targetRank);
 
-        if (board.isValidSquare(targetSquare) && board.isValidBishopMove( square, targetSquare))
+        if (board.isValidSquare(targetSquare) && board.isValidBishopMove(square, targetSquare))
         {
             moves.push_back(targetSquare);
         }
-                else
+        else
         {
-            break; 
+            break;
         }
     }
 
@@ -153,9 +151,9 @@ void Move::generateBishopMoves(const Chessboard &board, int square, std::vector<
     {
         int targetRank = rank - offset;
         int targetFile = file + offset;
-        int targetSquare = board.getSquare( targetFile, targetRank);
+        int targetSquare = board.getSquare(targetFile, targetRank);
 
-        if (board.isValidSquare(targetSquare) && board.isValidBishopMove( square, targetSquare))
+        if (board.isValidSquare(targetSquare) && board.isValidBishopMove(square, targetSquare))
         {
             moves.push_back(targetSquare);
         }
@@ -169,15 +167,15 @@ void Move::generateBishopMoves(const Chessboard &board, int square, std::vector<
     {
         int targetRank = rank - offset;
         int targetFile = file - offset;
-        int targetSquare = board.getSquare( targetFile, targetRank);
- 
-        if (board.isValidSquare(targetSquare) && board.isValidBishopMove( square, targetSquare))
+        int targetSquare = board.getSquare(targetFile, targetRank);
+
+        if (board.isValidSquare(targetSquare) && board.isValidBishopMove(square, targetSquare))
         {
             moves.push_back(targetSquare);
         }
         else
         {
-            break; 
+            break;
         }
     }
 
@@ -185,15 +183,15 @@ void Move::generateBishopMoves(const Chessboard &board, int square, std::vector<
     {
         int targetRank = rank + offset;
         int targetFile = file - offset;
-        int targetSquare = board.getSquare( targetFile, targetRank);
+        int targetSquare = board.getSquare(targetFile, targetRank);
 
-        if (board.isValidSquare(targetSquare) && board.isValidBishopMove( square, targetSquare))
+        if (board.isValidSquare(targetSquare) && board.isValidBishopMove(square, targetSquare))
         {
             moves.push_back(targetSquare);
         }
         else
         {
-            break; 
+            break;
         }
     }
 }
@@ -225,7 +223,7 @@ void Move::generateKingMoves(const Chessboard &board, int square, std::vector<in
     }
 }
 ////petit roque, pas oublier de faire le grand roque
-bool Move::lilCastlingMove(const Chessboard& board, int sourceSquare, int targetSquare)
+bool Move::lilCastlingMove(const Chessboard &board, int sourceSquare, int targetSquare)
 {
     int sourceRank = board.getRank(sourceSquare);
     int sourceFile = board.getFile(sourceSquare);
@@ -248,14 +246,17 @@ bool Move::lilCastlingMove(const Chessboard& board, int sourceSquare, int target
     }
 
     if (std::abs(sourceFile - targetFile) != 3)
-    {    
+    {
+        return false;
+    }
+    if (!board.isPathClear(sourceSquare, targetSquare))
+    {
         return false;
     }
     return true;
 }
 
-
-bool Move::bigCastlingMove(const Chessboard& board, int sourceSquare, int targetSquare)
+bool Move::bigCastlingMove(const Chessboard &board, int sourceSquare, int targetSquare)
 {
     int sourceRank = board.getRank(sourceSquare);
     int sourceFile = board.getFile(sourceSquare);
@@ -274,13 +275,17 @@ bool Move::bigCastlingMove(const Chessboard& board, int sourceSquare, int target
         return false;
     }
     if (std::abs(sourceFile - targetFile) != 4)
-    {    
+    {
+        return false;
+    }
+    if (!board.isPathClear(sourceSquare, targetSquare))
+    {
         return false;
     }
     return true;
 }
 
-bool Move::isCastlingLegal(const Chessboard& board, int sourceSquare, int targetSquare)
+bool Move::isCastlingLegal(const Chessboard &board, int sourceSquare, int targetSquare)
 {
 
     if (board.isKingInCheck(board.getColor(sourceSquare)))
@@ -300,22 +305,22 @@ bool Move::isMoveLegal(const Chessboard &board, int sourceSquare, int targetSqua
     Color color = board.getColor(sourceSquare);
     Piece piece = board.getPiece(sourceSquare);
 
-    
-    if (((color == WHITE) && ::Chessboard::castlingWK==true) || ((color == BLACK) && ::Chessboard::castlingBK==true))
+    if (((color == WHITE) && ::Chessboard::castlingWK == true) || ((color == BLACK) && ::Chessboard::castlingBK == true))
     {
         if (lilCastlingMove(board, sourceSquare, targetSquare))
         {
-        return isCastlingLegal(board, sourceSquare, targetSquare);
+            std::cout << "PETIT ROQUE DONE" << std::endl;
+            return isCastlingLegal(board, sourceSquare, targetSquare);
         }
     }
-    if (((color == WHITE) && ::Chessboard::castlingWQ==true) || ((color == BLACK) && ::Chessboard::castlingBQ==true))
+    if (((color == WHITE) && ::Chessboard::castlingWQ == true) || ((color == BLACK) && ::Chessboard::castlingBQ == true))
     {
         if (bigCastlingMove(board, sourceSquare, targetSquare))
         {
-        return isCastlingLegal(board, sourceSquare, targetSquare);
+            std::cout << "FUCKKKKK" << std::endl;
+            return isCastlingLegal(board, sourceSquare, targetSquare);
         }
     }
-    
 
     if (board.getPiece(targetSquare) != EMPTY && board.getColor(targetSquare) == color)
     {
@@ -325,25 +330,25 @@ bool Move::isMoveLegal(const Chessboard &board, int sourceSquare, int targetSqua
     switch (piece)
     {
     case 1:
-        //std::cout << "pawn";
+        // std::cout << "pawn";
         return isPawnMoveLegal(board, sourceSquare, targetSquare, color);
     case 2:
-        //std::cout << "rook";
+        // std::cout << "rook";
         return isRookMoveLegal(board, sourceSquare, targetSquare);
     case 3:
-        //std::cout << "knight";
+        // std::cout << "knight";
         return isKnightMoveLegal(board, sourceSquare, targetSquare);
     case 4:
-        //std::cout << "bishop";
+        // std::cout << "bishop";
         return isBishopMoveLegal(board, sourceSquare, targetSquare);
     case 5:
-        //std::cout << "queen";
+        // std::cout << "queen";
         return isQueenMoveLegal(board, sourceSquare, targetSquare);
     case 6:
-        //std::cout << "king";
+        // std::cout << "king";
         return isKingMoveLegal(board, sourceSquare, targetSquare);
     default:
-        //std::cout << "RIEN";
+        // std::cout << "RIEN";
         return false;
     }
 }
@@ -384,7 +389,7 @@ bool Move::isPawnMoveLegal(const Chessboard &board, int sourceSquare, int target
             }
         }
     }
-    else if (fileDiff == 1 && std::abs(rankDiff) == 1)//capture un ennemi
+    else if (fileDiff == 1 && std::abs(rankDiff) == 1) // capture un ennemi
     {
         if (board.getPiece(targetSquare) != EMPTY && board.getColor(targetSquare) != color)
         {
@@ -404,7 +409,7 @@ bool Move::isRookMoveLegal(const Chessboard &board, int sourceSquare, int target
     if (sourceRank == targetRank || sourceFile == targetFile)
     {
 
-        if (!board.isPathClear(sourceSquare,targetSquare))
+        if (!board.isPathClear(sourceSquare, targetSquare))
         {
             return false;
         }
@@ -500,34 +505,40 @@ std::vector<int> Move::getLegalMoves(const Chessboard &board, int square)
     return legalMoves;
 }
 
-std::vector<int> Move::getAllLegalMoves(const Chessboard &board) ///marche vrmnt pas bien
+std::vector<int> Move::getAllLegalMoves(const Chessboard &board) /// marche vrmnt pas bien
 {
-   std::vector<int> allLegalMoves;
+    std::vector<int> allLegalMoves;
 
-    for (int square = 0; square < 64; square++) {
-        if (board.getPiece(square) == EMPTY || board.getColor(square) != WHITE)//board.sideToMove())
+    for (int square = 0; square < 64; square++)
+    {
+        if (board.getPiece(square) == EMPTY || board.getColor(square) != WHITE) // board.sideToMove())
             continue;
 
         generateMoves(board, square, allLegalMoves);
-        //std::vector<int> legalMoves = Move::getLegalMoves(board, square);
-        //allLegalMoves.insert(allLegalMoves.end(), legalMoves.begin(), legalMoves.end());
+        // std::vector<int> legalMoves = Move::getLegalMoves(board, square);
+        // allLegalMoves.insert(allLegalMoves.end(), legalMoves.begin(), legalMoves.end());
     }
     return allLegalMoves;
 }
 
-
-std::vector<int> Move::generateAllLegalMoves(const Chessboard &board)
+std::vector<int> Move::generateAllLegalMoves(const Chessboard &board, Color currentColor)
 {
     std::vector<int> allLegalMoves;
-
-    for (int sourceSquare = 0; sourceSquare < 64; sourceSquare++) {
-        if (board.getPiece(sourceSquare) != EMPTY && board.getColor(sourceSquare) == board.PlayerToMove) {
-            for (int targetSquare = 0; targetSquare < 64; targetSquare++) {
-                if (targetSquare == sourceSquare) {
+    //std::cout << "playertomove :" << board.PlayerToMove << std::endl;
+    for (int sourceSquare = 0; sourceSquare < 64; sourceSquare++)
+    {
+        if (board.getPiece(sourceSquare) != EMPTY && board.getColor(sourceSquare) == currentColor)
+        {
+            for (int targetSquare = 0; targetSquare < 64; targetSquare++)
+            {
+                if (targetSquare == sourceSquare)
+                {
                     continue;
                 }
-                else{
-                    if (isMoveLegal(board, sourceSquare, targetSquare)) {
+                else
+                {
+                    if (isMoveLegal(board, sourceSquare, targetSquare))
+                    {
                         allLegalMoves.push_back(sourceSquare);
                         allLegalMoves.push_back(targetSquare);
                     }
@@ -538,9 +549,6 @@ std::vector<int> Move::generateAllLegalMoves(const Chessboard &board)
 
     return allLegalMoves;
 }
-
-
-
 
 std::string Move::getSquareName(int square)
 {
@@ -553,17 +561,13 @@ std::string Move::getSquareName(int square)
     return name;
 }
 
-
-
-
-
 /*
 bool Move::isCheckmate(const Chessboard &board, Color sideToMove)
 {
     int opponentKingSquare = board.findKing(sideToMove);
     if (!isSquareUnderAttack(board, opponentKingSquare, sideToMove))
     {
-        return false; 
+        return false;
     }
 
     std::vector<int> legalMoves = getLegalMoves(board, opponentKingSquare);

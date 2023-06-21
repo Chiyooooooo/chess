@@ -33,7 +33,7 @@ public:
     static std::vector<int> getLegalMoves(const Chessboard &board, int square);
     static std::vector<int> getAllLegalMoves(const Chessboard &board);
     
-    static std::vector<int> generateAllLegalMoves(const Chessboard &board);
+    static std::vector<int> generateAllLegalMoves(const Chessboard &board, Color currentColor);
 
     static std::string getSquareName(int square);
 };
