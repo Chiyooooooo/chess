@@ -1,6 +1,12 @@
 file(REMOVE_RECURSE
+  "CMakeFiles/chessengine.dir/src/board.cc.o"
+  "CMakeFiles/chessengine.dir/src/board.cc.o.d"
   "CMakeFiles/chessengine.dir/src/main.cc.o"
   "CMakeFiles/chessengine.dir/src/main.cc.o.d"
+  "CMakeFiles/chessengine.dir/src/move.cc.o"
+  "CMakeFiles/chessengine.dir/src/move.cc.o.d"
+  "CMakeFiles/chessengine.dir/src/perft.cc.o"
+  "CMakeFiles/chessengine.dir/src/perft.cc.o.d"
   "chessengine"
   "chessengine.pdb"
 )

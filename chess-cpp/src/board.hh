@@ -45,7 +45,7 @@ public:
     Piece getPiece(int square) const;
     Color getColor(int square) const;
     bool isValidSquare(int square) const; // case bien dans l'echiquier
-    void loadFEN(const std::string &fen);
+    void FEN(const std::string &fen);
     bool isValidMove(int fromSquare, int toSquare) const;
     bool isValidPawnMove(int fromSquare, int toSquare, Color color) const;
     bool isValidRookMove(int fromSquare, int toSquare) const;

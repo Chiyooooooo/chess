@@ -12,18 +12,18 @@ int main(int argc, char *argv[])
 {
     if (argc < 2)
     {
-        std::cerr << "failed args" << std::endl;
+        //std::cerr << "failed args" << std::endl;
         return 1;
     }
     if (!strcmp(argv[1], "-h"))
     {
         std::cout << argv[1];
-        std::cout << "Usage : ./chessengine --perft arg" << std::endl;
+        //std::cout << "Usage : ./chessengine --perft arg" << std::endl;
         return 0;
     }
     if (!!strcmp(argv[1], "--perft"))
     {
-        std::cout << "FUCK YOU" << std::endl;
+        //std::cout << "FUCK YOU" << std::endl;
         return 0;
     }
     std::string fen;          // argv[2];
@@ -45,7 +45,7 @@ int main(int argc, char *argv[])
     int i = 0;
     while (std::getline(ss, token, ' '))
     {
-        std::cout << "token " << i << " : " << token << std::endl;
+       // std::cout << "token " << i << " : " << token << std::endl;
         tokens.push_back(token);
         i++;
     }
@@ -54,8 +54,6 @@ int main(int argc, char *argv[])
     playercolor = tokens[1];
     castling = tokens[2];
     enPassant = tokens[3];
-    
-    std::cout<<"PRMEIER EN PASSANT"<<enPassant;
     depth = tokens.back();
     Chessboard::prof = depth;
 
@@ -72,7 +70,7 @@ int main(int argc, char *argv[])
     }
     else
     {
-        std::cerr << "failed color" << std::endl;
+        //std::cerr << "failed color" << std::endl;
         return 1;
     }
 
@@ -105,7 +103,7 @@ int main(int argc, char *argv[])
             }
             else
             {
-                std::cerr << "failed castling" << std::endl;
+                //std::cerr << "failed castling" << std::endl;
                 return 1;
             }
         }
@@ -123,20 +121,12 @@ int main(int argc, char *argv[])
     //ojd : fix le enpassant, fix le 44, fix la promotion
 ///44 manque trois prom
 
-    board.loadFEN(fen);
-    board.prettyPrint();
+    board.FEN(fen);
+   // board.prettyPrint();
 
-    /*std::vector<int> all = Move::generateAllLegalMoves(board, Chessboard::PlayerToMove);
-    //std::cout << all.size() << std::endl;
-
-    for (unsigned long i = 0; i < all.size(); ++i)
-    {
-        std::cout << Move::getSquareName(all[i]) << " ";
-        // std::cout <<all[i] << " ";
-    }
-    */
     int result = perft(board, stoi(depth), Chessboard::PlayerToMove);
-    std::cout << std::endl << "perft :" << result << std::endl;
+    
+    std::cout << result << std::endl;
 
     return 0;
 }

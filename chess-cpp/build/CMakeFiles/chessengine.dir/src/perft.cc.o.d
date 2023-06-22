@@ -1,7 +1,8 @@
-CMakeFiles/chessengine.dir/src/main.cc.o: \
- /home/yanis.belami/afs/chess/epita-ing-assistants-yaka-chess-2025-chess-317/chess-cpp/src/main.cc \
+CMakeFiles/chessengine.dir/src/perft.cc.o: \
+ /home/yanis.belami/afs/chess/epita-ing-assistants-yaka-chess-2025-chess-317/chess-cpp/src/perft.cc \
  /run/current-system/sw/include/stdc-predef.h \
- /nix/store/3cjvw93ly6cx2af13f2l3pw4yzbi8wp6-gcc-11.3.0/include/c++/11.3.0/cstring \
+ /home/yanis.belami/afs/chess/epita-ing-assistants-yaka-chess-2025-chess-317/chess-cpp/src/perft.hh \
+ /nix/store/3cjvw93ly6cx2af13f2l3pw4yzbi8wp6-gcc-11.3.0/include/c++/11.3.0/iostream \
  /nix/store/3cjvw93ly6cx2af13f2l3pw4yzbi8wp6-gcc-11.3.0/include/c++/11.3.0/x86_64-unknown-linux-gnu/bits/c++config.h \
  /nix/store/3cjvw93ly6cx2af13f2l3pw4yzbi8wp6-gcc-11.3.0/include/c++/11.3.0/x86_64-unknown-linux-gnu/bits/os_defines.h \
  /run/current-system/sw/include/features.h \
@@ -14,16 +15,7 @@ CMakeFiles/chessengine.dir/src/main.cc.o: \
  /run/current-system/sw/include/gnu/stubs-64.h \
  /nix/store/3cjvw93ly6cx2af13f2l3pw4yzbi8wp6-gcc-11.3.0/include/c++/11.3.0/x86_64-unknown-linux-gnu/bits/cpu_defines.h \
  /nix/store/3cjvw93ly6cx2af13f2l3pw4yzbi8wp6-gcc-11.3.0/include/c++/11.3.0/pstl/pstl_config.h \
- /run/current-system/sw/include/string.h \
- /run/current-system/sw/include/bits/libc-header-start.h \
- /nix/store/3cjvw93ly6cx2af13f2l3pw4yzbi8wp6-gcc-11.3.0/lib/gcc/x86_64-unknown-linux-gnu/11.3.0/include/stddef.h \
- /run/current-system/sw/include/bits/types/locale_t.h \
- /run/current-system/sw/include/bits/types/__locale_t.h \
- /run/current-system/sw/include/strings.h \
- /run/current-system/sw/include/bits/strings_fortified.h \
- /run/current-system/sw/include/bits/string_fortified.h \
- /nix/store/3cjvw93ly6cx2af13f2l3pw4yzbi8wp6-gcc-11.3.0/include/c++/11.3.0/fstream \
- /nix/store/3cjvw93ly6cx2af13f2l3pw4yzbi8wp6-gcc-11.3.0/include/c++/11.3.0/istream \
+ /nix/store/3cjvw93ly6cx2af13f2l3pw4yzbi8wp6-gcc-11.3.0/include/c++/11.3.0/ostream \
  /nix/store/3cjvw93ly6cx2af13f2l3pw4yzbi8wp6-gcc-11.3.0/include/c++/11.3.0/ios \
  /nix/store/3cjvw93ly6cx2af13f2l3pw4yzbi8wp6-gcc-11.3.0/include/c++/11.3.0/iosfwd \
  /nix/store/3cjvw93ly6cx2af13f2l3pw4yzbi8wp6-gcc-11.3.0/include/c++/11.3.0/bits/stringfwd.h \
@@ -31,8 +23,10 @@ CMakeFiles/chessengine.dir/src/main.cc.o: \
  /nix/store/3cjvw93ly6cx2af13f2l3pw4yzbi8wp6-gcc-11.3.0/include/c++/11.3.0/bits/postypes.h \
  /nix/store/3cjvw93ly6cx2af13f2l3pw4yzbi8wp6-gcc-11.3.0/include/c++/11.3.0/cwchar \
  /run/current-system/sw/include/wchar.h \
+ /run/current-system/sw/include/bits/libc-header-start.h \
  /run/current-system/sw/include/bits/floatn.h \
  /run/current-system/sw/include/bits/floatn-common.h \
+ /nix/store/3cjvw93ly6cx2af13f2l3pw4yzbi8wp6-gcc-11.3.0/lib/gcc/x86_64-unknown-linux-gnu/11.3.0/include/stddef.h \
  /nix/store/3cjvw93ly6cx2af13f2l3pw4yzbi8wp6-gcc-11.3.0/lib/gcc/x86_64-unknown-linux-gnu/11.3.0/include/stdarg.h \
  /run/current-system/sw/include/bits/wchar.h \
  /run/current-system/sw/include/bits/types/wint_t.h \
@@ -40,6 +34,8 @@ CMakeFiles/chessengine.dir/src/main.cc.o: \
  /run/current-system/sw/include/bits/types/__mbstate_t.h \
  /run/current-system/sw/include/bits/types/__FILE.h \
  /run/current-system/sw/include/bits/types/FILE.h \
+ /run/current-system/sw/include/bits/types/locale_t.h \
+ /run/current-system/sw/include/bits/types/__locale_t.h \
  /run/current-system/sw/include/bits/wchar2-decl.h \
  /run/current-system/sw/include/bits/wchar2.h \
  /nix/store/3cjvw93ly6cx2af13f2l3pw4yzbi8wp6-gcc-11.3.0/include/c++/11.3.0/exception \
@@ -200,14 +196,9 @@ CMakeFiles/chessengine.dir/src/main.cc.o: \
  /nix/store/3cjvw93ly6cx2af13f2l3pw4yzbi8wp6-gcc-11.3.0/include/c++/11.3.0/x86_64-unknown-linux-gnu/bits/ctype_inline.h \
  /nix/store/3cjvw93ly6cx2af13f2l3pw4yzbi8wp6-gcc-11.3.0/include/c++/11.3.0/bits/locale_facets.tcc \
  /nix/store/3cjvw93ly6cx2af13f2l3pw4yzbi8wp6-gcc-11.3.0/include/c++/11.3.0/bits/basic_ios.tcc \
- /nix/store/3cjvw93ly6cx2af13f2l3pw4yzbi8wp6-gcc-11.3.0/include/c++/11.3.0/ostream \
  /nix/store/3cjvw93ly6cx2af13f2l3pw4yzbi8wp6-gcc-11.3.0/include/c++/11.3.0/bits/ostream.tcc \
+ /nix/store/3cjvw93ly6cx2af13f2l3pw4yzbi8wp6-gcc-11.3.0/include/c++/11.3.0/istream \
  /nix/store/3cjvw93ly6cx2af13f2l3pw4yzbi8wp6-gcc-11.3.0/include/c++/11.3.0/bits/istream.tcc \
- /nix/store/3cjvw93ly6cx2af13f2l3pw4yzbi8wp6-gcc-11.3.0/include/c++/11.3.0/bits/codecvt.h \
- /nix/store/3cjvw93ly6cx2af13f2l3pw4yzbi8wp6-gcc-11.3.0/include/c++/11.3.0/x86_64-unknown-linux-gnu/bits/basic_file.h \
- /nix/store/3cjvw93ly6cx2af13f2l3pw4yzbi8wp6-gcc-11.3.0/include/c++/11.3.0/x86_64-unknown-linux-gnu/bits/c++io.h \
- /nix/store/3cjvw93ly6cx2af13f2l3pw4yzbi8wp6-gcc-11.3.0/include/c++/11.3.0/bits/fstream.tcc \
- /nix/store/3cjvw93ly6cx2af13f2l3pw4yzbi8wp6-gcc-11.3.0/include/c++/11.3.0/iostream \
  /nix/store/3cjvw93ly6cx2af13f2l3pw4yzbi8wp6-gcc-11.3.0/include/c++/11.3.0/sstream \
  /nix/store/3cjvw93ly6cx2af13f2l3pw4yzbi8wp6-gcc-11.3.0/include/c++/11.3.0/bits/sstream.tcc \
  /nix/store/3cjvw93ly6cx2af13f2l3pw4yzbi8wp6-gcc-11.3.0/include/c++/11.3.0/vector \
@@ -215,8 +206,6 @@ CMakeFiles/chessengine.dir/src/main.cc.o: \
  /nix/store/3cjvw93ly6cx2af13f2l3pw4yzbi8wp6-gcc-11.3.0/include/c++/11.3.0/bits/stl_vector.h \
  /nix/store/3cjvw93ly6cx2af13f2l3pw4yzbi8wp6-gcc-11.3.0/include/c++/11.3.0/bits/stl_bvector.h \
  /nix/store/3cjvw93ly6cx2af13f2l3pw4yzbi8wp6-gcc-11.3.0/include/c++/11.3.0/bits/vector.tcc \
- /home/yanis.belami/afs/chess/epita-ing-assistants-yaka-chess-2025-chess-317/chess-cpp/src/move.hh \
- /home/yanis.belami/afs/chess/epita-ing-assistants-yaka-chess-2025-chess-317/chess-cpp/src/board.hh \
  /nix/store/3cjvw93ly6cx2af13f2l3pw4yzbi8wp6-gcc-11.3.0/include/c++/11.3.0/cmath \
  /nix/store/bq928ff6m7lvcfyvcdvgvqxhqi5f3ijq-glibc-2.35-224-dev/include/math.h \
  /run/current-system/sw/include/bits/math-vector.h \
@@ -242,4 +231,5 @@ CMakeFiles/chessengine.dir/src/main.cc.o: \
  /nix/store/3cjvw93ly6cx2af13f2l3pw4yzbi8wp6-gcc-11.3.0/include/c++/11.3.0/tr1/poly_hermite.tcc \
  /nix/store/3cjvw93ly6cx2af13f2l3pw4yzbi8wp6-gcc-11.3.0/include/c++/11.3.0/tr1/poly_laguerre.tcc \
  /nix/store/3cjvw93ly6cx2af13f2l3pw4yzbi8wp6-gcc-11.3.0/include/c++/11.3.0/tr1/riemann_zeta.tcc \
- /home/yanis.belami/afs/chess/epita-ing-assistants-yaka-chess-2025-chess-317/chess-cpp/src/perft.hh
+ /home/yanis.belami/afs/chess/epita-ing-assistants-yaka-chess-2025-chess-317/chess-cpp/src/board.hh \
+ /home/yanis.belami/afs/chess/epita-ing-assistants-yaka-chess-2025-chess-317/chess-cpp/src/move.hh

@@ -46,7 +46,7 @@ bool Chessboard::isValidSquare(int square) const
     return (square >= 0 && square < Size * Size);
 }
 
-void Chessboard::loadFEN(const std::string &fen)
+void Chessboard::FEN(const std::string &fen)
 {
     reset();
     int rank = Size - 1;
@@ -248,8 +248,8 @@ void Chessboard::movePiece(int fromSquare, int toSquare)
 
 void Chessboard::undoMove(int fromSquare, int toSquare, Piece capturedPiece, Color capturedPieceColor)
 {
-    movePiece(toSquare, fromSquare);                       // Move the piece back to its original position
-    setPiece(toSquare, capturedPiece, capturedPieceColor); // Restore the captured piece
+    movePiece(toSquare, fromSquare);                       
+    setPiece(toSquare, capturedPiece, capturedPieceColor); 
 }
 
 bool Chessboard::isKingInCheck(Color kingColor) const
@@ -380,49 +380,11 @@ int main(int argc, char *argv[])
         return 1;
     }
 
-    std::istringstream perftStringStream(argv[1]);
-
-    std::string fen;
-    int depth;
-
-    perftStringStream >> fen >> depth;
-
-    Chessboard board;
-    board.loadFEN(fen);
-
-    //unsigned long long result = perft(board, depth);
+    std::istringepth);
     //std::cout << result << std::endl;
 
     return 0;
 }
 
 
-
-int main()
-{
-    Chessboard board;
-    // Load the initial position or any other position using the FEN notation
-    board.loadFEN("rnbq1k1r/pp1Pbppp/2p5/8/2B5/8/PPP1NnPP/RNBQK2R");
-
-    // Generate and print the moves for each square on the board
-    for (int square = 0; square < Chessboard::Size * Chessboard::Size; ++square)
-    {
-        std::vector<int> moves;
-        Move::generateMoves(board, square, moves);
-
-        std::cout << "Moves for square " << square << ": ";
-        for (std::vector<int>::iterator it = moves.begin(); it != moves.end(); ++it)
-        {
-            int move = *it;
-            std::cout << move << " ";
-        }
-        std::cout << std::endl;
-    }
-
-    unsigned long long result = perft(board, 1);
-
-    std::cout << result << std::endl;
-
-    return 0;
-}
 */
