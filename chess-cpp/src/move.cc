@@ -390,7 +390,7 @@ bool Move::isMoveLegal(const Chessboard &board, int sourceSquare, int targetSqua
             return isCastlingLegal(board, sourceSquare, targetSquare);
         }
     }
-
+    
     if (Chessboard::enPA == "-") ////dmd utilite de ce truc
     {
         return isEnPassantMove(board, sourceSquare, targetSquare);
@@ -400,6 +400,7 @@ bool Move::isMoveLegal(const Chessboard &board, int sourceSquare, int targetSqua
     {
         return false;
     }
+
 
     switch (piece)
     {
@@ -430,6 +431,21 @@ bool Move::isMoveLegal(const Chessboard &board, int sourceSquare, int targetSqua
 
 bool Move::isPawnMoveLegal(const Chessboard &board, int sourceSquare, int targetSquare, Color color)
 {
+    /////////////////////////////////////////////////////
+    ///////////////
+
+
+
+
+
+//rajouter ici le check si j'ai bien un en passant, puis je set le bail du en passant a un autre chose ue -
+// et apres je rajoute le move dans le vector de move, puis je remet le bail a - apres avoir fait le perft associe;
+// tester avec le test que j'ai et apres tester avec un pion et deux autres qqui poeuvent fair een passant .
+// et apres je fais le perft et je vois si ca marche bien
+
+
+
+
     int rankDiff = board.getRank(targetSquare) - board.getRank(sourceSquare);
     int fileDiff = std::abs(board.getFile(targetSquare) - board.getFile(sourceSquare));
 
