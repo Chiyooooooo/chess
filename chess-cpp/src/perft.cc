@@ -30,8 +30,6 @@ int perft(Chessboard &board, int depth, Color currentColor)
             Color capturedPieceColor = board.getColor(toSquare);
             Color col = board.getColor(fromSquare);
 
-
-
             if ( Move::lilCastlingMove(board, fromSquare, toSquare) && fromSquare==4 && toSquare==7)
             {
                 if (Move::isCastlingLegal(board, fromSquare, toSquare)){
@@ -52,7 +50,24 @@ int perft(Chessboard &board, int depth, Color currentColor)
                     board.undoMove(0,3,EMPTY, EMPTY_COLOR);
             }}
 
+            if (Chessboard::enPA == "-")
+            {
+                if (Move::isEnPassantMove(board, fromSquare, toSquare))
+                {
+                    std::cout << "EN PASSANT";
+                    board.movePiece(fromSquare, toSquare);
+                    board.setPiece(toSquare - 8, EMPTY, BLACK);
+                    if (!board.isKingInCheck(col))
+                    {
+                        solution += perft(board, depth - 1, (currentColor == WHITE) ? BLACK : WHITE);
+                    }
+                    board.undoMove(fromSquare, toSquare, capturedPiece, capturedPieceColor);
+                }
+            }
+
             if ( Move::isPromotionLegal(board, fromSquare, toSquare)){
+                //PROMOTION
+                //std::cout << "PROMOTION";
                 board.movePiece(fromSquare, toSquare);
                 board.setPiece(toSquare,ROOK ,col);
                 if (!board.isKingInCheck(col))
@@ -84,8 +99,11 @@ int perft(Chessboard &board, int depth, Color currentColor)
                 solution += perft(board, depth - 1, (currentColor == WHITE) ? BLACK : WHITE);
                 }
                 board.undoMove(fromSquare, toSquare, capturedPiece, capturedPieceColor);
+                board.setPiece(fromSquare,PAWN ,col);
+                //board.prettyPrint();
             }
 
+            
             else {
             board.movePiece(fromSquare, toSquare);
             if (!board.isKingInCheck(col))
