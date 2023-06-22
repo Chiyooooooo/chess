@@ -318,10 +318,8 @@ bool Move::isEnPassantMove(const Chessboard& board, int sourceSquare, int target
     {
         return false;
     }
-    if (sourceRank != targetRank)
-    {
-        return false;
-    }
+    if (sourceRank != targetRank){
+        return false;}
     if (std::abs(sourceFile - targetFile) != 1)
     {
         return false;
@@ -391,16 +389,57 @@ bool Move::isMoveLegal(const Chessboard &board, int sourceSquare, int targetSqua
         }
     }
     
-    if (Chessboard::enPA == "-") ////dmd utilite de ce truc
+    if (Chessboard::enPA != "-" && Chessboard::prof=="1") ////dmd utilite de ce truc
     {
-        return isEnPassantMove(board, sourceSquare, targetSquare);
+            Color safecolor = board.getColor(sourceSquare);
+            int sourceRank = board.getRank(sourceSquare);
+            int targetRank = board.getRank(targetSquare);
+
+            if (safecolor == WHITE && sourceRank == 4 && targetRank == 5)
+            {
+                //std::cout<<"HARDCODE ENPA    "<<std::endl;
+                if (board.getPiece(sourceSquare)==PAWN && board.getPiece(targetSquare)==EMPTY && board.getPiece(board.getSquare(board.getFile(targetSquare), board.getRank(sourceSquare)))==PAWN && board.getColor(board.getSquare(board.getFile(targetSquare), board.getRank(sourceSquare)))==BLACK)
+                {
+                    std::cout<<"HARDCODE ENPA    "<<std::endl;
+                    return true;
+                }
+
+            else if (safecolor == BLACK && sourceRank == 3 && targetRank == 2)
+                if (board.getPiece(sourceSquare)==PAWN && board.getPiece(targetSquare)==EMPTY && board.getPiece(board.getSquare(board.getFile(targetSquare), board.getRank(sourceSquare)))==PAWN && board.getColor(board.getSquare(board.getFile(targetSquare), board.getRank(sourceSquare)))==WHITE)
+                {
+                    std::cout<<"HARDCODE ENPA    "<<std::endl;
+                    return true;
+                }
+            }
+        }
+/*
+    if (safecolor == WHITE && sourceRank == 1 && targetRank == 3)
+    {
+        int leftNeighborSquare = targetSquare - 1;
+        int rightNeighborSquare = targetSquare + 1;
+        if ((board.getPiece(leftNeighborSquare) == PAWN && board.getColor(leftNeighborSquare) == BLACK) ||
+               (board.getPiece(rightNeighborSquare) == PAWN && board.getColor(rightNeighborSquare) == BLACK)) {
+                Chessboard::enPA = "y";
+                return true;
+                }        
     }
+    else if (safecolor == BLACK && sourceRank == 6 && targetRank == 4)
+    {
+        int leftNeighborSquare = targetSquare - 1;
+        int rightNeighborSquare = targetSquare + 1;
+        if ((board.getPiece(leftNeighborSquare) == PAWN && board.getColor(leftNeighborSquare) == WHITE) ||
+               (board.getPiece(rightNeighborSquare) == PAWN && board.getColor(rightNeighborSquare) == WHITE)) {
+                Chessboard::enPA = "y";
+                return true;
+                }
+    }
+        return isEnPassantMove(board, sourceSquare, targetSquare);
+    }*/
     
     if (board.getPiece(targetSquare) != EMPTY && board.getColor(targetSquare) == color)
     {
         return false;
     }
-
 
     switch (piece)
     {
@@ -431,20 +470,60 @@ bool Move::isMoveLegal(const Chessboard &board, int sourceSquare, int targetSqua
 
 bool Move::isPawnMoveLegal(const Chessboard &board, int sourceSquare, int targetSquare, Color color)
 {
-    /////////////////////////////////////////////////////
-    ///////////////
-
-
-
-
-
-//rajouter ici le check si j'ai bien un en passant, puis je set le bail du en passant a un autre chose ue -
+// rajouter ici le check si j'ai bien un en passant, puis je set le bail du en passant a un autre chose que -
 // et apres je rajoute le move dans le vector de move, puis je remet le bail a - apres avoir fait le perft associe;
 // tester avec le test que j'ai et apres tester avec un pion et deux autres qqui poeuvent fair een passant .
 // et apres je fais le perft et je vois si ca marche bien
 
+  /*  Color safecolor = board.getColor(sourceSquare);
+    int sourceRank = board.getRank(sourceSquare);
+    int targetRank = board.getRank(targetSquare);
 
+    if (safecolor == WHITE && sourceRank == 1 && targetRank == 3)
+    {
+        int leftNeighborSquare = targetSquare - 1;
+        int rightNeighborSquare = targetSquare + 1;
+        if ((board.getPiece(leftNeighborSquare) == PAWN && board.getColor(leftNeighborSquare) == BLACK) ||
+               (board.getPiece(rightNeighborSquare) == PAWN && board.getColor(rightNeighborSquare) == BLACK)) {
+                Chessboard::enPA = "y";
+                return true;
+                }        
+    }
+    else if (safecolor == BLACK && sourceRank == 6 && targetRank == 4)
+    {
+        int leftNeighborSquare = targetSquare - 1;
+        int rightNeighborSquare = targetSquare + 1;
+        if ((board.getPiece(leftNeighborSquare) == PAWN && board.getColor(leftNeighborSquare) == WHITE) ||
+               (board.getPiece(rightNeighborSquare) == PAWN && board.getColor(rightNeighborSquare) == WHITE)) {
+                Chessboard::enPA = "y";
+                return true;
+                }
+    }
 
+    if (safecolor == WHITE && sourceRank == 4 && targetRank == 5)
+    {
+        if (board.getPiece(sourceSquare)==PAWN && board.getPiece(targetSquare)==EMPTY && board.getPiece(board.getSquare(board.getFile(sourceSquare), board.getRank(targetSquare)))==PAWN && board.getColor(board.getSquare(board.getFile(targetSquare), targetRank-1))==BLACK)
+        {
+            return true;
+        }
+        int leftNeighborSquare = targetSquare - 1;
+        int rightNeighborSquare = targetSquare + 1;
+        if ((board.getPiece(leftNeighborSquare) == PAWN && board.getColor(leftNeighborSquare) == BLACK) ||
+               (board.getPiece(rightNeighborSquare) == PAWN && board.getColor(rightNeighborSquare) == BLACK)) {
+                Chessboard::enPA = "y";
+                return true;
+                }       
+    }
+    else if (safecolor == BLACK && sourceRank == 3 && targetRank == 2)
+    {
+        int leftNeighborSquare = targetSquare - 1;
+        int rightNeighborSquare = targetSquare + 1;
+        if ((board.getPiece(leftNeighborSquare) == PAWN && board.getColor(leftNeighborSquare) == WHITE) ||
+               (board.getPiece(rightNeighborSquare) == PAWN && board.getColor(rightNeighborSquare) == WHITE)) {
+                Chessboard::enPA = "y";
+                return true;
+                }
+    }*/
 
     int rankDiff = board.getRank(targetSquare) - board.getRank(sourceSquare);
     int fileDiff = std::abs(board.getFile(targetSquare) - board.getFile(sourceSquare));

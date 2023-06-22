@@ -36,6 +36,7 @@ public:
     inline static bool castlingBQ = true;
     inline static std::string enPA = "-";
     inline static Color PlayerToMove;
+    inline static std::string prof = "0";
 
     Chessboard();
 

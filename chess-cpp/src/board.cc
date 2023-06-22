@@ -302,7 +302,7 @@ void Chessboard::prettyPrint() const
         case QUEEN:
             piece[square] = 'q';
             break;
-        case KING:
+        case KING: 
             piece[square] = 'k';
             break;
         case PAWN:

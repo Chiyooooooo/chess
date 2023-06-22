@@ -4,7 +4,7 @@
 
 int perft(Chessboard &board, int depth, Color currentColor)
 {
-    std::cout << "\n";
+   // std::cout << "\n";
 
     if (depth == 0)
     {
@@ -22,35 +22,86 @@ int perft(Chessboard &board, int depth, Color currentColor)
     {
         int fromSquare = sol[i];
         int toSquare = sol[i + 1];
-        
-       std::cout << Move::getSquareName(fromSquare) << "" << Move::getSquareName(toSquare);
+
+ //       //std::cout << Move::getSquareName(fromSquare) << "" << Move::getSquareName(toSquare);
         // if (board.isValidSquare(toSquare) && Move::isMoveLegal(board, fromSquare, toSquare))
         {
             Piece capturedPiece = board.getPiece(toSquare);
             Color capturedPieceColor = board.getColor(toSquare);
             Color col = board.getColor(fromSquare);
 
-            if ( Move::lilCastlingMove(board, fromSquare, toSquare) && fromSquare==4 && toSquare==7)
+            if (Move::isPromotionLegal(board, fromSquare, toSquare))
             {
-                if (Move::isCastlingLegal(board, fromSquare, toSquare)){
-                    board.movePiece(fromSquare, 6);
-                    board.movePiece(7,5);
+                // PROMOTION
+                // std::cout << "PROMOTION";
+                board.movePiece(fromSquare, toSquare);
+                board.setPiece(toSquare, ROOK, col);
+                if (!board.isKingInCheck(col))
+                {
                     solution += perft(board, depth - 1, (currentColor == WHITE) ? BLACK : WHITE);
-                    board.undoMove(fromSquare, 6, EMPTY, EMPTY_COLOR); //a voir mais normalement ok
-                    board.undoMove(7,5,EMPTY, EMPTY_COLOR);
-            }}
+                }
+                board.undoMove(fromSquare, toSquare, capturedPiece, capturedPieceColor);
 
-            if ( Move::bigCastlingMove(board, fromSquare, toSquare) && (fromSquare==4 && toSquare==0))
+                board.movePiece(fromSquare, toSquare);
+                board.setPiece(toSquare, KNIGHT, col);
+                if (!board.isKingInCheck(col))
+                {
+                    solution += perft(board, depth - 1, (currentColor == WHITE) ? BLACK : WHITE);
+                }
+                board.undoMove(fromSquare, toSquare, capturedPiece, capturedPieceColor);
+
+                board.movePiece(fromSquare, toSquare);
+                board.setPiece(toSquare, BISHOP, col);
+                if (!board.isKingInCheck(col))
+                {
+                    solution += perft(board, depth - 1, (currentColor == WHITE) ? BLACK : WHITE);
+                }
+                board.undoMove(fromSquare, toSquare, capturedPiece, capturedPieceColor);
+
+                board.movePiece(fromSquare, toSquare);
+                board.setPiece(toSquare, QUEEN, col);
+                if (!board.isKingInCheck(col))
+                {
+                    solution += perft(board, depth - 1, (currentColor == WHITE) ? BLACK : WHITE);
+                }
+                board.undoMove(fromSquare, toSquare, capturedPiece, capturedPieceColor);
+                board.setPiece(fromSquare, PAWN, col);
+                // board.prettyPrint();
+            }
+
+            else if (Move::bigCastlingMove(board, fromSquare, toSquare) || Move::lilCastlingMove(board, fromSquare, toSquare))
             {
-                if (Move::isCastlingLegal(board, fromSquare, toSquare)){
-                    board.movePiece(fromSquare, 2);
-                    board.movePiece(0,3);
-                    solution += perft(board, depth - 1, (currentColor == WHITE) ? BLACK : WHITE);
-                    board.undoMove(fromSquare, 2, EMPTY, EMPTY_COLOR);
-                    board.undoMove(0,3,EMPTY, EMPTY_COLOR);
-            }}
+                if (fromSquare == 4 && toSquare == 0)
+                {
+                    if (Move::isCastlingLegal(board, fromSquare, toSquare))
+                    {
+                        board.movePiece(fromSquare, 2);
+                        board.movePiece(0, 3);
+                        solution += perft(board, depth - 1, (currentColor == WHITE) ? BLACK : WHITE);
+                        board.undoMove(fromSquare, 2, EMPTY, EMPTY_COLOR);
+                        board.undoMove(0, 3, EMPTY, EMPTY_COLOR);
+                    }
+                }
+                if (fromSquare == 4 && toSquare == 7)
+                {
+                    if (fromSquare == 4 && toSquare == 7)
+                    {
+                        if (Move::isCastlingLegal(board, fromSquare, toSquare))
+                        {
+                            board.movePiece(fromSquare, 6);
+                            board.movePiece(7, 5);
+                            solution += perft(board, depth - 1, (currentColor == WHITE) ? BLACK : WHITE);
+                            board.undoMove(fromSquare, 6, EMPTY, EMPTY_COLOR); // a voir mais normalement ok
+                            board.undoMove(7, 5, EMPTY, EMPTY_COLOR);
+                        }
+                    }
+                }
+            } 
+            
+            ///////laisser le castling juste avant l'autre bail
 
-            if (Chessboard::enPA == "-")
+            /*
+            if (Chessboard::enPA == "y")
             {
                 if (Move::isEnPassantMove(board, fromSquare, toSquare))
                 {
@@ -63,55 +114,18 @@ int perft(Chessboard &board, int depth, Color currentColor)
                     }
                     board.undoMove(fromSquare, toSquare, capturedPiece, capturedPieceColor);
                 }
-            }
+                //Chessboard::enPA = "-";
+            }*/
 
-            if ( Move::isPromotionLegal(board, fromSquare, toSquare)){
-                //PROMOTION
-                //std::cout << "PROMOTION";
-                board.movePiece(fromSquare, toSquare);
-                board.setPiece(toSquare,ROOK ,col);
-                if (!board.isKingInCheck(col))
-                {
-                solution += perft(board, depth - 1, (currentColor == WHITE) ? BLACK : WHITE);
-                }
-                board.undoMove(fromSquare, toSquare, capturedPiece, capturedPieceColor);
-
-                board.movePiece(fromSquare, toSquare);
-                board.setPiece(toSquare,KNIGHT ,col);
-                if (!board.isKingInCheck(col))
-                {
-                solution += perft(board, depth - 1, (currentColor == WHITE) ? BLACK : WHITE);
-                }
-                board.undoMove(fromSquare, toSquare, capturedPiece, capturedPieceColor);
-
-                board.movePiece(fromSquare, toSquare);
-                board.setPiece(toSquare,BISHOP,col);
-                if (!board.isKingInCheck(col))
-                {
-                solution += perft(board, depth - 1, (currentColor == WHITE) ? BLACK : WHITE);
-                }
-                board.undoMove(fromSquare, toSquare, capturedPiece, capturedPieceColor);
-
-                board.movePiece(fromSquare, toSquare);
-                board.setPiece(toSquare,QUEEN,col);
-                if (!board.isKingInCheck(col))
-                {
-                solution += perft(board, depth - 1, (currentColor == WHITE) ? BLACK : WHITE);
-                }
-                board.undoMove(fromSquare, toSquare, capturedPiece, capturedPieceColor);
-                board.setPiece(fromSquare,PAWN ,col);
-                //board.prettyPrint();
-            }
-
-            
-            else {
-            board.movePiece(fromSquare, toSquare);
-            if (!board.isKingInCheck(col))
+            else
             {
-                solution += perft(board, depth - 1, (currentColor == WHITE) ? BLACK : WHITE);
-            }
-            ///// pas obublier de changer le boolean pr le roque
-            board.undoMove(fromSquare, toSquare, capturedPiece, capturedPieceColor);
+                board.movePiece(fromSquare, toSquare);
+                if (!board.isKingInCheck(col))
+                {
+                    solution += perft(board, depth - 1, (currentColor == WHITE) ? BLACK : WHITE);
+                }
+                ///// pas obublier de changer le boolean pr le roque
+                board.undoMove(fromSquare, toSquare, capturedPiece, capturedPieceColor);
             }
         }
     }
