@@ -107,31 +107,43 @@ bool Chessboard::isValidMove(int fromSquare, int toSquare) const
 }
 
 bool Chessboard::isValidPawnMove(int fromSquare, int toSquare, Color color) const
-{
+{/*
     int rankDiff = std::abs(getRank(toSquare) - getRank(fromSquare)); // bon rang
     if (rankDiff != 1)
         return false;
 
     int fileDiff = std::abs(getFile(toSquare) - getFile(fromSquare)); // bonne column
-    if (fileDiff > 1)
+    if (fileDiff > 1 )
         return false;
+*/
+    //std::cout << "fromsquare" << fromSquare << std::endl;
+    //std::cout << "tosquare" << (toSquare)<< std::endl;
 
     int forwardDir = (color == WHITE) ? 1 : -1; // bonne direction
-    if (getRank(toSquare) - getRank(fromSquare) != forwardDir)
-        return false;
+   
+    //if (std::abs(getFile(toSquare)-getFile(fromSquare))==1)
 
-    // en passant, promotion, etc.
+    return (getRank(toSquare) - getRank(fromSquare) == forwardDir)&&(std::abs(getFile(toSquare)-getFile(fromSquare))==1);
+   // if ((getRank(toSquare) - getRank(fromSquare) != forwardDir))//&& getPiece(toSquare)!=EMPTY)
+     //   return false;
 
-    return true;
+   // if ((std::abs(getFile(toSquare)-getFile(fromSquare)==1)) )//&& getPiece(toSquare)==EMPTY)
+   //     return true;
+
+    return false;
 }
 
 bool Chessboard::isValidRookMove(int fromSquare, int toSquare) const
 {
+    //std::cout<<"isvaliderook\n";
     if (getRank(fromSquare) != getRank(toSquare) && getFile(fromSquare) != getFile(toSquare))
         return false;
+    
+    //std::cout<<"isvalid22222\n";
 
     if (!isPathClear(fromSquare, toSquare))
         return false;
+ //   std::cout<<"isvtrue\n";
 
     return true;
 }

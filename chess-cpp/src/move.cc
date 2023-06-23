@@ -187,7 +187,7 @@ bool Move::isMoveLegal(const Chessboard &board, int caseDebut, int caseFin)
             return isCastlingLegal(board, caseDebut, caseFin);
         }
     }
-    if (((color == WHITE) && ::Chessboard::castlingWK == true) || ((color == BLACK) && ::Chessboard::castlingBK == true))
+    else if (((color == WHITE) && ::Chessboard::castlingWK == true) || ((color == BLACK) && ::Chessboard::castlingBK == true))
     {
         if (lilCastlingMove(board, caseDebut, caseFin))
         {
@@ -195,7 +195,7 @@ bool Move::isMoveLegal(const Chessboard &board, int caseDebut, int caseFin)
         }
     }
 
-    if (Chessboard::enPA != "-") //&& Chessboard::prof == "1") ////dmd utilite de ce truc
+    else if (Chessboard::enPA != "-") //&& Chessboard::prof == "1") ////dmd utilite de ce truc
     {
         int caseEnPa = board.getSquare(board.getFile(getSquareFromName(Chessboard::enPA)), board.getRank(getSquareFromName(Chessboard::enPA)));
 

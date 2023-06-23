@@ -45,7 +45,6 @@ int main(int argc, char *argv[])
     int i = 0;
     while (std::getline(ss, token, ' '))
     {
-        // std::cout << "token " << i << " : " << token << std::endl;
         tokens.push_back(token);
         i++;
     }
