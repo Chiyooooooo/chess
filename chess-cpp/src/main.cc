@@ -12,23 +12,23 @@ int main(int argc, char *argv[])
 {
     if (argc < 2)
     {
-        //std::cerr << "failed args" << std::endl;
+        // std::cerr << "failed args" << std::endl;
         return 1;
     }
     if (!strcmp(argv[1], "-h"))
     {
         std::cout << argv[1];
-        //std::cout << "Usage : ./chessengine --perft arg" << std::endl;
+        // std::cout << "Usage : ./chessengine --perft arg" << std::endl;
         return 0;
     }
     if (!!strcmp(argv[1], "--perft"))
     {
-        //std::cout << "FUCK YOU" << std::endl;
+        // std::cout << "FUCK YOU" << std::endl;
         return 0;
     }
-    std::string fen;          // argv[2];
+    std::string fen;         // argv[2];
     std::string playercolor; // argv[3];
-    std::string castling;     // argv[4];
+    std::string castling;    // argv[4];
     std::string depth;
     std::string enPassant;
 
@@ -45,7 +45,7 @@ int main(int argc, char *argv[])
     int i = 0;
     while (std::getline(ss, token, ' '))
     {
-       // std::cout << "token " << i << " : " << token << std::endl;
+        // std::cout << "token " << i << " : " << token << std::endl;
         tokens.push_back(token);
         i++;
     }
@@ -58,7 +58,7 @@ int main(int argc, char *argv[])
     Chessboard::prof = depth;
 
     Chessboard board;
-    board.enPA=enPassant;
+    board.enPA = enPassant;
 
     if (playercolor == "w")
     {
@@ -70,7 +70,7 @@ int main(int argc, char *argv[])
     }
     else
     {
-        //std::cerr << "failed color" << std::endl;
+        // std::cerr << "failed color" << std::endl;
         return 1;
     }
 
@@ -103,7 +103,7 @@ int main(int argc, char *argv[])
             }
             else
             {
-                //std::cerr << "failed castling" << std::endl;
+                // std::cerr << "failed castling" << std::endl;
                 return 1;
             }
         }
@@ -118,17 +118,20 @@ int main(int argc, char *argv[])
 
     // perft fait uniquement pour la depth 1, pas oublier de gere le reste
 
-    //ojd : fix le enpassant, fix le 44, fix la promotion
-///44 manque trois prom
+    // ojd : fix le enpassant, fix le 44, fix la promotion
+    /// 44 manque trois prom
 
     board.FEN(fen);
-   // board.prettyPrint();
+    //board.prettyPrint();
+
+    //std::cout << "isvalidmove" << board.isValidMove( 31, 22) << std::endl;
+    //std::cout << "isvalidmove" << board.isValidKingMove( 31, 22) << std::endl;
 
     int result = perft(board, stoi(depth), Chessboard::PlayerToMove);
-    
-    std::cout << result << std::endl;
+
+    std::cout << std::endl
+              << std::endl
+              << result << std::endl;
 
     return 0;
 }
-
-

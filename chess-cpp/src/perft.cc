@@ -4,7 +4,7 @@
 
 int perft(Chessboard &board, int depth, Color currentColor)
 {
-   // std::cout << "\n";
+    // std::cout << "\n";
 
     if (depth == 0)
     {
@@ -13,6 +13,13 @@ int perft(Chessboard &board, int depth, Color currentColor)
 
     int solution = 0;
     std::vector<int> sol = Move::generateAllLegalMoves(board, currentColor);
+    /*
+    for (unsigned long i = 0; i < sol.size(); ++i) {
+        std::cout << sol[i] << " ";
+    }
+    std::cout << std::endl;*/
+
+    // std::cout << "depth " << depth << " : " << sol.size() / 2 << " moves" << std::endl;
     /*if (depth == 1){
        return ((Move::generateAllLegalMoves(board)).size()/2);
     }*/
@@ -23,8 +30,8 @@ int perft(Chessboard &board, int depth, Color currentColor)
         int fromSquare = sol[i];
         int toSquare = sol[i + 1];
 
-       // std::cout << Move::getSquareName(fromSquare) << "" << Move::getSquareName(toSquare);
-        // if (board.isValidSquare(toSquare) && Move::isMoveLegal(board, fromSquare, toSquare))
+        // std::cout << Move::getSquareName(fromSquare) << "" << Move::getSquareName(toSquare);
+        //  if (board.isValidSquare(toSquare) && Move::isMoveLegal(board, fromSquare, toSquare))
         {
             Piece capturedPiece = board.getPiece(toSquare);
             Color capturedPieceColor = board.getColor(toSquare);
@@ -96,32 +103,79 @@ int perft(Chessboard &board, int depth, Color currentColor)
                         }
                     }
                 }
-            } 
-            
+            }
+
             ///////laisser le castling juste avant l'autre bail
 
-            /*
-            if (Chessboard::enPA == "y")
+            else if (Chessboard::enPADONEW != "-")
             {
-                if (Move::isEnPassantMove(board, fromSquare, toSquare))
+                //   if (Move::isEnPassantMove(board, fromSquare, toSquare))
                 {
-                    std::cout << "EN PASSANT";
                     board.movePiece(fromSquare, toSquare);
-                    board.setPiece(toSquare - 8, EMPTY, BLACK);
+                    board.setPiece(toSquare - 8, EMPTY, EMPTY_COLOR);
                     if (!board.isKingInCheck(col))
                     {
                         solution += perft(board, depth - 1, (currentColor == WHITE) ? BLACK : WHITE);
                     }
                     board.undoMove(fromSquare, toSquare, capturedPiece, capturedPieceColor);
+                    board.setPiece(toSquare - 8, PAWN, BLACK);
                 }
+                Chessboard::enPADONEW = "-";
+                Chessboard::enPA = "-"; // utilite et savoir si c'est bien place
+            }
+            else if (Chessboard::enPADONEB != "-")
+            {
+                // if (Move::isEnPassantMove(board, fromSquare, toSquare))
+                {
+                    board.movePiece(fromSquare, toSquare);
+                    board.setPiece(toSquare + 8, EMPTY, EMPTY_COLOR);
+                    if (!board.isKingInCheck(col))
+                    {
+                        solution += perft(board, depth - 1, (currentColor == WHITE) ? BLACK : WHITE);
+                    }
+                    board.undoMove(fromSquare, toSquare, capturedPiece, capturedPieceColor);
+                    board.setPiece(toSquare + 8, PAWN, WHITE);
+                }
+                Chessboard::enPADONEB = "-";
+                Chessboard::enPA = "-"; // utilite et savoir si c'est bien place
+            }
+            /*{
+                if (Move::isEnPassantMove(board, fromSquare, toSquare))
+                {
+                    std::cout << "EN PASSANT";
+                    board.movePiece(fromSquare, toSquare);
+                    board.setPiece(toSquare - 8, EMPTY, EMPTY_COLOR);
+                    if (!board.isKingInCheck(col))
+                    {
+                        solution += perft(board, depth - 1, (currentColor == WHITE) ? BLACK : WHITE);
+                    }
+                    board.undoMove(fromSquare, toSquare, capturedPiece, capturedPieceColor);
+                    board.setPiece(toSquare - 8, PAWN, (currentColor == WHITE) ? BLACK : WHITE);}
                 //Chessboard::enPA = "-";
             }*/
-
             else
             {
+                if (fromSquare == 31 && toSquare == 22)
+                {
+                    // std::cout << Move::getSquareName(fromSquare) << "" << Move::getSquareName(toSquare)<<std::endl;
+                    std::cout << "validite du coup  " << toSquare << ": " << board.isKingInCheck(col) << std::endl;
+                    std::cout << "check avec validmove  " << toSquare << ": " << board.isValidMove(fromSquare, toSquare) << std::endl;
+                    board.movePiece(fromSquare, toSquare);
+
+                    if (!board.isKingInCheck(col))
+                    {
+                        std::cout << Move::getSquareName(fromSquare) << "" << Move::getSquareName(toSquare) << std::endl;
+                        solution += perft(board, depth - 1, (currentColor == WHITE) ? BLACK : WHITE);
+                    }
+                    ///// pas obublier de changer le boolean pr le roque
+                    board.undoMove(fromSquare, toSquare, capturedPiece, capturedPieceColor);
+                }
+
                 board.movePiece(fromSquare, toSquare);
                 if (!board.isKingInCheck(col))
                 {
+                    std::cout << Move::getSquareName(fromSquare) << "" << Move::getSquareName(toSquare) << std::endl;
+
                     solution += perft(board, depth - 1, (currentColor == WHITE) ? BLACK : WHITE);
                 }
                 ///// pas obublier de changer le boolean pr le roque
@@ -154,4 +208,3 @@ int perft(Chessboard &board, int depth, Color currentColor)
     */
     return solution;
 }
-

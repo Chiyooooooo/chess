@@ -21,8 +21,8 @@ enum Piece
 enum Color
 {
     EMPTY_COLOR = -1,
-    BLACK=0,
-    WHITE=1
+    BLACK = 0,
+    WHITE = 1
 };
 
 class Chessboard
@@ -31,10 +31,14 @@ public:
     static const int Size = 8;
 
     inline static bool castlingWK = true;
-    inline static bool castlingWQ = true ;
+    inline static bool castlingWQ = true;
     inline static bool castlingBK = true;
     inline static bool castlingBQ = true;
     inline static std::string enPA = "-";
+    inline static std::string enPADONEW = "-";
+    inline static std::string enPADONEB = "-";
+
+
     inline static Color PlayerToMove;
     inline static std::string prof = "0";
 

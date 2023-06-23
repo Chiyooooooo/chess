@@ -102,21 +102,21 @@ bool Chessboard::isValidMove(int fromSquare, int toSquare) const
     case 6:
         return isValidKingMove(fromSquare, toSquare);
     default:
-        return false; 
+        return false;
     }
 }
 
 bool Chessboard::isValidPawnMove(int fromSquare, int toSquare, Color color) const
 {
-    int rankDiff = std::abs(getRank(toSquare) - getRank(fromSquare));//bon rang
+    int rankDiff = std::abs(getRank(toSquare) - getRank(fromSquare)); // bon rang
     if (rankDiff != 1)
         return false;
 
-    int fileDiff = std::abs(getFile(toSquare) - getFile(fromSquare));//bonne column
+    int fileDiff = std::abs(getFile(toSquare) - getFile(fromSquare)); // bonne column
     if (fileDiff > 1)
         return false;
 
-    int forwardDir = (color == WHITE) ? 1 : -1; //bonne direction
+    int forwardDir = (color == WHITE) ? 1 : -1; // bonne direction
     if (getRank(toSquare) - getRank(fromSquare) != forwardDir)
         return false;
 
@@ -191,7 +191,7 @@ bool Chessboard::isPathClear(int fromSquare, int toSquare) const
 
     while (currentSquare != toSquare)
     {
-        //std::cout<<getFile(currentSquare) + fileDir<<"   "<< getRank(currentSquare) + rankDir<< "\n";
+        // std::cout<<getFile(currentSquare) + fileDir<<"   "<< getRank(currentSquare) + rankDir<< "\n";
         currentSquare = getSquare(getFile(currentSquare) + fileDir, getRank(currentSquare) + rankDir);
         if (currentSquare != toSquare && getPiece(currentSquare) != EMPTY)
             return false;
@@ -226,19 +226,19 @@ void Chessboard::movePiece(int fromSquare, int toSquare)
     Piece piece = getPiece(fromSquare);
     Color color = getColor(fromSquare);
 
-    if (color == WHITE && getRank(piece)==0 && getFile(piece)==0 )
+    if (color == WHITE && getRank(piece) == 0 && getFile(piece) == 0)
     {
         castlingWQ = false;
     }
-    if (color == WHITE && getRank(piece)==0 && getFile(piece)==7 )
+    if (color == WHITE && getRank(piece) == 0 && getFile(piece) == 7)
     {
         castlingWK = false;
     }
-    if (color == BLACK && getRank(piece)==7 && getFile(piece)==0 )
+    if (color == BLACK && getRank(piece) == 7 && getFile(piece) == 0)
     {
         castlingBQ = false;
     }
-    if (color == BLACK && getRank(piece)==7 && getFile(piece)==7 )
+    if (color == BLACK && getRank(piece) == 7 && getFile(piece) == 7)
     {
         castlingBK = false;
     }
@@ -248,8 +248,8 @@ void Chessboard::movePiece(int fromSquare, int toSquare)
 
 void Chessboard::undoMove(int fromSquare, int toSquare, Piece capturedPiece, Color capturedPieceColor)
 {
-    movePiece(toSquare, fromSquare);                       
-    setPiece(toSquare, capturedPiece, capturedPieceColor); 
+    movePiece(toSquare, fromSquare);
+    setPiece(toSquare, capturedPiece, capturedPieceColor);
 }
 
 bool Chessboard::isKingInCheck(Color kingColor) const
@@ -263,7 +263,7 @@ bool Chessboard::isKingInCheck(Color kingColor) const
             break;
         }
     }
-
+    
     for (int square = 0; square < Size * Size; ++square)
     {
         Piece piece = getPiece(square);
@@ -271,7 +271,6 @@ bool Chessboard::isKingInCheck(Color kingColor) const
 
         if (piece == EMPTY || color == kingColor)
             continue;
-
         if (isValidMove(square, kingSquare))
         {
             return true;
@@ -302,7 +301,7 @@ void Chessboard::prettyPrint() const
         case QUEEN:
             piece[square] = 'q';
             break;
-        case KING: 
+        case KING:
             piece[square] = 'k';
             break;
         case PAWN:

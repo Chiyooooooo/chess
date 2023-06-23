@@ -6,13 +6,12 @@
 class Move
 {
 public:
+    static bool lilCastlingMove(const Chessboard &board, int sourceSquare, int targetSquare);
+    static bool bigCastlingMove(const Chessboard &board, int sourceSquare, int targetSquare);
+    static bool isCastlingLegal(const Chessboard &board, int sourceSquare, int targetSquare);
+    static bool isEnPassantMove(const Chessboard &board, int sourceSquare, int targetSquare);
 
-    static bool lilCastlingMove(const Chessboard& board, int sourceSquare, int targetSquare);
-    static bool bigCastlingMove(const Chessboard& board, int sourceSquare, int targetSquare);
-    static bool isCastlingLegal(const Chessboard& board, int sourceSquare, int targetSquare);
-    static bool isEnPassantMove(const Chessboard& board, int sourceSquare, int targetSquare);
-
-    static bool isPromotionLegal(const Chessboard& board, int sourceSquare, int targetSquare);
+    static bool isPromotionLegal(const Chessboard &board, int sourceSquare, int targetSquare);
     static bool isMoveLegal(const Chessboard &board, int sourceSquare, int targetSquare);
     static bool isPawnMoveLegal(const Chessboard &board, int sourceSquare, int targetSquare, Color color);
     static bool isRookMoveLegal(const Chessboard &board, int sourceSquare, int targetSquare);
@@ -24,6 +23,7 @@ public:
     static std::vector<int> generateAllLegalMoves(const Chessboard &board, Color currentColor);
 
     static std::string getSquareName(int square);
+    static int getSquareFromName(const std::string &name);
 };
 
 #endif // MOVE_HH
