@@ -37,6 +37,7 @@ public:
     inline static std::string enPA = "-";
     inline static std::string enPADONEW = "-";
     inline static std::string enPADONEB = "-";
+    inline static int enPaDiff = 0;
 
 
     inline static Color PlayerToMove;

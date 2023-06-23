@@ -93,7 +93,6 @@ bool Move::isEnPassantMove(const Chessboard &board, int caseDebut, int caseFin)
     int colonneDebut = board.getFile(caseDebut);
     int rangFin = board.getRank(caseFin);
     int colonneFin = board.getFile(caseFin);
-
     if (board.getPiece(caseDebut) != PAWN || board.getPiece(caseFin) != EMPTY)
     {
         return false;
@@ -102,20 +101,20 @@ bool Move::isEnPassantMove(const Chessboard &board, int caseDebut, int caseFin)
     {
         return false;
     }
-    if (rangDebut != rangFin)
-    {
+    if (rangDebut == rangFin)
+    {std::cout<<"OKpp \n";
+
         return false;
     }
+    std::cout<<colonneDebut<< " fin  "<<colonneFin;
     if (std::abs(colonneDebut - colonneFin) != 1)
-    {
+    {std::cout<<"OooK \n";
+
         return false;
     }
-    if (board.getColor(caseDebut) == WHITE && rangFin != 5)
-    {
-        return false;
-    }
-    if (board.getColor(caseDebut) == BLACK && rangFin != 2)
-    {
+    if ((board.getColor(caseDebut) == WHITE && rangFin != 5)||(board.getColor(caseDebut) == BLACK && rangFin != 2))
+    {std::cout<<"OK \n";
+
         return false;
     }
     int enPassantSquare = board.getSquare(colonneFin, rangDebut);
@@ -187,7 +186,7 @@ bool Move::isMoveLegal(const Chessboard &board, int caseDebut, int caseFin)
             return isCastlingLegal(board, caseDebut, caseFin);
         }
     }
-    else if (((color == WHITE) && ::Chessboard::castlingWK == true) || ((color == BLACK) && ::Chessboard::castlingBK == true))
+    if (((color == WHITE) && ::Chessboard::castlingWK == true) || ((color == BLACK) && ::Chessboard::castlingBK == true))
     {
         if (lilCastlingMove(board, caseDebut, caseFin))
         {
@@ -195,37 +194,49 @@ bool Move::isMoveLegal(const Chessboard &board, int caseDebut, int caseFin)
         }
     }
 
-    else if (Chessboard::enPA != "-") //&& Chessboard::prof == "1") ////dmd utilite de ce truc
+    else if (Chessboard::enPA != "-") //&& Chessboard::prof == "1") ///a verufier si fctionne
     {
         int caseEnPa = board.getSquare(board.getFile(getSquareFromName(Chessboard::enPA)), board.getRank(getSquareFromName(Chessboard::enPA)));
 
         Color safecolor = board.getColor(caseDebut);
         int rangDebut = board.getRank(caseDebut);
         int rangFin = board.getRank(caseFin);
+        int colonneDebut = board.getFile(caseDebut);
+        int colonneFin = board.getFile(caseFin);
 
         if (safecolor == WHITE && rangDebut == 4 && rangFin == 5)
-        {
-            if (board.getPiece(caseDebut) == PAWN && board.getPiece(caseFin) == EMPTY && board.getPiece(board.getSquare(board.getFile(caseFin), board.getRank(caseDebut))) == PAWN && board.getColor(board.getSquare(board.getFile(caseFin), board.getRank(caseDebut))) == BLACK)
+        {   if (std::abs(colonneDebut - colonneFin)==1){
+            if (board.getPiece(caseDebut) == PAWN && board.getPiece(caseFin) == EMPTY &&
+             board.getPiece(board.getSquare(board.getFile(caseFin), board.getRank(caseDebut))) == PAWN && 
+             board.getColor(board.getSquare(board.getFile(caseFin), board.getRank(caseDebut))) == BLACK)
             {
                 if (caseFin == caseEnPa)
                 {
+                    Chessboard::enPADONEW = Chessboard::enPA;
                     Chessboard::enPA = "-";
-                    Chessboard::enPADONEW = "yes";
-                    std::cout << "EN PASSANTW" << std::endl;
+                    std::cout << "EN PASSANTW "<< rangDebut<< std::endl;
                     return true;
                 }
-            }
-            else if (safecolor == BLACK && rangDebut == 3 && rangFin == 2)
-                if (board.getPiece(caseDebut) == PAWN && board.getPiece(caseFin) == EMPTY && board.getPiece(board.getSquare(board.getFile(caseFin), board.getRank(caseDebut))) == PAWN && board.getColor(board.getSquare(board.getFile(caseFin), board.getRank(caseDebut))) == WHITE)
+            }}
+        }
+        else if (safecolor == BLACK && rangDebut == 3 && rangFin == 2){
+            if (std::abs(colonneDebut - colonneFin)==1){
+            if (board.getPiece(caseDebut) == PAWN && board.getPiece(caseFin) == EMPTY && 
+            board.getPiece(board.getSquare(board.getFile(caseFin), board.getRank(caseDebut))) == PAWN && 
+            board.getColor(board.getSquare(board.getFile(caseFin), board.getRank(caseDebut))) == WHITE)
+            {
+                // std::cout << "EN PASSANTB" << std::endl;
+                if (caseFin == caseEnPa)
                 {
-                    if (caseFin == caseEnPa)
-                    {
-                        Chessboard::enPA = "-";
-                        Chessboard::enPADONEB = "yes";
-                        std::cout << "EN PASSANTB" << std::endl;
-                        return true;
-                    }
+                    Chessboard::enPADONEB = Chessboard::enPA;
+                    std::cout << Chessboard::enPA;
+                    Chessboard::enPA = "-";
+                    std::cout << "EN PASSANTB" << std::endl;
+                        std::cout << " CASE DEBUT " << caseDebut << "\n";
+                std::cout << " CASE FIN " << caseFin << "\n";
+                    return true;
                 }
+            }}
         }
     }
 
@@ -288,7 +299,6 @@ bool Move::isPawnMoveLegal(const Chessboard &board, int caseDebut, int caseFin, 
             {
                 return true;
             }
-
             int startRank = (color == WHITE) ? 1 : 6;
             if (board.getRank(caseDebut) == startRank && std::abs(rankDiff) == 2)
             {
@@ -302,13 +312,16 @@ bool Move::isPawnMoveLegal(const Chessboard &board, int caseDebut, int caseFin, 
                     if (color == WHITE && ((board.getPiece(leftNeighborSquare) == PAWN && board.getColor(leftNeighborSquare) == BLACK) ||
                                            (board.getPiece(rightNeighborSquare) == PAWN && board.getColor(rightNeighborSquare) == BLACK)))
                     {
-                        Chessboard::enPA = Move::getSquareName(caseFin + 8);
+                        Chessboard::enPA = Move::getSquareName(caseFin - 8);
+                        std::cout << Chessboard::enPA << "nouveau enpa calcule BLANC\n";
                         return true;
                     }
                     else if (color == BLACK && ((board.getPiece(leftNeighborSquare) == PAWN && board.getColor(leftNeighborSquare) == WHITE) ||
                                                 (board.getPiece(rightNeighborSquare) == PAWN && board.getColor(rightNeighborSquare) == WHITE)))
                     {
-                        Chessboard::enPA = Move::getSquareName(caseFin - 8);
+                        Chessboard::enPA = Move::getSquareName(caseFin + 8);
+                        std::cout << Chessboard::enPA << "nouveau enpa calcule  NOIR\n";
+
                         return true;
                     }
                     return true;
