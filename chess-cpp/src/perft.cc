@@ -136,23 +136,23 @@ int perft(Chessboard &board, int depth, Color currentColor)
                 //if (Move::isEnPassantMove(board, fromSquare, toSquare))
                 {
                     int caseEnPa = board.getSquare(board.getFile(Move::getSquareFromName(Chessboard::enPADONEB)), board.getRank(Move::getSquareFromName(Chessboard::enPADONEB)));   
+                    int enPaDiff = board.getFile(fromSquare)-board.getFile(caseEnPa);
                     std::cout << "ENPA B PERFT";
                     board.prettyPrint();
-                    board.movePiece(fromSquare, toSquare+1);
+                    board.movePiece(fromSquare, toSquare );
                     std::cout << " from sq " << fromSquare << "\n";
                     std::cout << " to sq " << caseEnPa << "\n";
-                    int enPaDiff = board.getFile(fromSquare)-board.getFile(caseEnPa);
                     std::cout << "case en pa" << enPaDiff << "\n";
 
 
-                    board.setPiece(toSquare + 8 -enPaDiff, EMPTY, EMPTY_COLOR);
+                    board.setPiece(toSquare + 8 , EMPTY, EMPTY_COLOR);
                     board.prettyPrint();
                     if (!board.isKingInCheck(col))
                     {
                         solution += perft(board, depth - 1, (currentColor == WHITE) ? BLACK : WHITE);
                     }
-                    board.undoMove(fromSquare, toSquare+1, capturedPiece, capturedPieceColor);
-                    board.setPiece(toSquare + 8 -enPaDiff , PAWN, WHITE);
+                    board.undoMove(fromSquare, toSquare, capturedPiece, capturedPieceColor);
+                    board.setPiece(toSquare + 8 , PAWN, WHITE);
                     board.prettyPrint();
                 }
                 Chessboard::enPADONEB = "-";
