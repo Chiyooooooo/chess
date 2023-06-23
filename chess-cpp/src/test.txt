@@ -77,4 +77,5 @@ test d'echec en promotion
 
 
 ---------------
+make -j chessengine; time ./chessengine --perft ../src/test.txt
 
