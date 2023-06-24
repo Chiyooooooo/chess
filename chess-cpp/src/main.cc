@@ -17,7 +17,7 @@ int main(int argc, char *argv[])
     }
     if (!strcmp(argv[1], "-h"))
     {
-        std::cout << argv[1];
+        //std::cout << argv[1];
         // std::cout << "Usage : ./chessengine --perft arg" << std::endl;
         return 0;
     }
