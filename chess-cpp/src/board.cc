@@ -275,13 +275,13 @@ void Chessboard::movePiece(int fromSquare, int toSquare)
                                            (getPiece(rightNeighborSquare) == PAWN && getColor(rightNeighborSquare) == BLACK)))
                     {
                         Chessboard::enPA = getSquareName(caseFin - 8);
-                        std::cout << Chessboard::enPA << "nouveau enpa calcule BLANC\n";
+                      //  std::cout << Chessboard::enPA << "nouveau enpa calcule BLANC\n";
                     }
                     else if (/*Chessboard::enPA =="-" &&*/ color == BLACK && ((getPiece(leftNeighborSquare) == PAWN && getColor(leftNeighborSquare) == WHITE) ||
                                                 (getPiece(rightNeighborSquare) == PAWN && getColor(rightNeighborSquare) == WHITE)))
                     {
                         Chessboard::enPA = getSquareName(caseFin + 8);
-                        std::cout << Chessboard::enPA << "nouveau enpa calcule  NOIR\n";
+                      //  std::cout << Chessboard::enPA << "nouveau enpa calcule  NOIR\n";
                     }
                 }
             }

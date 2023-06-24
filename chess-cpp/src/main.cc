@@ -82,6 +82,10 @@ int main(int argc, char *argv[])
     }
     else
     {
+                board.castlingWK = false;
+        board.castlingWQ = false;
+        board.castlingBK = false;
+        board.castlingBQ = false;
         for (unsigned long i = 0; i < castling.size(); ++i)
         {
             if (castling[i] == 'K')
@@ -99,11 +103,6 @@ int main(int argc, char *argv[])
             else if (castling[i] == 'q')
             {
                 board.castlingBQ = true;
-            }
-            else
-            {
-                // std::cerr << "failed castling" << std::endl;
-                return 1;
             }
         }
     }
@@ -125,12 +124,16 @@ int main(int argc, char *argv[])
 
     //std::cout << "isvalidmove" << board.isValidMove( 31, 22) << std::endl;
     //std::cout << "isvalidmove" << board.isValidKingMove( 31, 22) << std::endl;
+ //   std::cout << board.castlingBQ << "KAST BK ";
+  //  std::cout << board.castlingWQ << "KAST wq ";
+    //std::cout << board.castlingWK << "KAST wk ";
+   // std::cout << board.castlingBK << "KAST Bq ";
+
 
     int result = perft(board, stoi(depth), Chessboard::PlayerToMove);
 
-    std::cout << std::endl
-              << std::endl
-              << result << std::endl;
+
+    std::cout << result << std::endl;
 
     return 0;
 }
