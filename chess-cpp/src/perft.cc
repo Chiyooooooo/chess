@@ -91,14 +91,16 @@ int perft(Chessboard &board, int depth, Color currentColor)
                      //   std::cout << board.getSquareName(fromSquare) << "" << board.getSquareName(toSquare) << std::endl;
                         board.movePiece(fromSquare, 2);
                         board.movePiece(0, 3);
-                        if (!board.isKingInCheck(col)&& (!board.isRookInCheck(3,col)))
+                        if (!board.isKingInCheck(col))
+                        {
+                            if (!board.isRookInCheck(3,col))
                     {
                         //board.prettyPrint();
                         Chessboard::castlingWQ = false; 
                      //   std::cout<<"ROQUE big : ";
                         solution += perft(board, depth - 1, (currentColor == WHITE) ? BLACK : WHITE);
                         Chessboard::castlingWQ = true; 
-                    }
+                    }}
                         //solution += perft(board, depth - 1, (currentColor == WHITE) ? BLACK : WHITE);
                         board.undoMove(fromSquare, 2, EMPTY, EMPTY_COLOR);
                         board.undoMove(0, 3, EMPTY, EMPTY_COLOR);
@@ -113,12 +115,14 @@ int perft(Chessboard &board, int depth, Color currentColor)
                   //      std::cout << board.getSquareName(fromSquare) << "" << board.getSquareName(toSquare) << std::endl;
                         board.movePiece(fromSquare, 58);
                         board.movePiece(56, 59);
-                        if (!board.isKingInCheck(col)&& (!board.isRookInCheck(59,col)))
+                        if (!board.isKingInCheck(col))
+                        {
+                            if (!board.isRookInCheck(59,col))
                     {
                         Chessboard::castlingBK=false ;
                         solution += perft(board, depth - 1, (currentColor == WHITE) ? BLACK : WHITE);
                         Chessboard::castlingBK=true ;
-                    }
+                    }}
                         //solution += perft(board, depth - 1, (currentColor == WHITE) ? BLACK : WHITE);
                         board.undoMove(fromSquare, 58, EMPTY, EMPTY_COLOR);
                         board.undoMove(56, 59, EMPTY, EMPTY_COLOR);
@@ -128,19 +132,20 @@ int perft(Chessboard &board, int depth, Color currentColor)
                 {
                     if (Move::isCastlingLegal(board, fromSquare, toSquare))
                     {   
-                   //     std::cout << board.getSquareName(fromSquare) << "" << board.getSquareName(toSquare) << std::endl;
+                     //   std::cout << board.getSquareName(fromSquare) << "" << board.getSquareName(toSquare) << std::endl;
                         board.movePiece(fromSquare, 6);
                         board.movePiece(7, 5);
-                    //    std::cout << "kingcheck" << (!board.isKingInCheck(col)) ;
-                    //    std::cout << "kingcheck" << (!board.isRookInCheck(7,col));
-
-                    if ((!board.isKingInCheck(col)) && (!board.isRookInCheck(7,col)))
+                     //   std::cout << "kingcheck" << (!board.isKingInCheck(col)) ;
+                      //  std::cout << "kingcheck" << (!board.isRookInCheck(7,col));
+                      //  board.prettyPrint();
+                    if ((!board.isKingInCheck(col)))
+                    {   if (!board.isRookInCheck(5,col))
                     {
                         Chessboard::castlingWK=false ;
-                     //   std::cout<<"ROQUE lil  : ";
+                      //  std::cout<<"ROQUE lil  : ";
                         solution += perft(board, depth - 1, (currentColor == WHITE) ? BLACK : WHITE);
                         Chessboard::castlingWK=true ;
-                    }
+                    }}
 
                        // solution += perft(board, depth - 1, (currentColor == WHITE) ? BLACK : WHITE);
                         board.undoMove(fromSquare, 6, EMPTY, EMPTY_COLOR); // a voir mais normalement ok
@@ -156,12 +161,13 @@ int perft(Chessboard &board, int depth, Color currentColor)
                         board.movePiece(fromSquare, 62);
                         board.movePiece(63, 61);
                         
-                    if (!board.isKingInCheck(col)&& (!board.isRookInCheck(61,col)))
+                    if (!board.isKingInCheck(col)){
+                        if  (!board.isRookInCheck(61,col))
                     {
                         Chessboard::castlingBK=false ;
                         solution += perft(board, depth - 1, (currentColor == WHITE) ? BLACK : WHITE);
                         Chessboard::castlingBK=true ;
-                    }
+                    }}
                         //solution += perft(board, depth - 1, (currentColor == WHITE) ? BLACK : WHITE);
                         board.undoMove(fromSquare, 62, EMPTY, EMPTY_COLOR); // a voir mais normalement ok
                         board.undoMove(63, 61, EMPTY, EMPTY_COLOR);
