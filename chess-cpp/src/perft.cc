@@ -14,8 +14,10 @@ int perft(Chessboard &board, int depth, Color currentColor)
     int solution = 0;
     std::vector<int> sol = Move::generateAllLegalMoves(board, currentColor);
     
-    //for (unsigned long i = 0; i < sol.size(); ++i) {std::cout << sol[i] << " ";}std::cout << std::endl;
-
+ //   if (depth==1) {
+        //board.prettyPrint();
+       // for (unsigned long i = 0; i < sol.size(); i+=2) {std::cout << Move::getSquareName(sol[i]) << Move::getSquareName(sol[i+1])<<std::endl;}std::cout << std::endl;}
+        
     // std::cout << "depth " << depth << " : " << sol.size() / 2 << " moves" << std::endl;
     /*if (depth == 1){
        return ((Move::generateAllLegalMoves(board)).size()/2);
@@ -26,8 +28,10 @@ int perft(Chessboard &board, int depth, Color currentColor)
     {
         int fromSquare = sol[i];
         int toSquare = sol[i + 1];
+        int caseEnPaW = board.getSquare(board.getFile(Move::getSquareFromName(Chessboard::enPADONEW)), board.getRank(Move::getSquareFromName(Chessboard::enPADONEW)));   
+        int caseEnPaB = board.getSquare(board.getFile(Move::getSquareFromName(Chessboard::enPADONEB)), board.getRank(Move::getSquareFromName(Chessboard::enPADONEB)));   
 
-        // std::cout << Move::getSquareName(fromSquare) << "" << Move::getSquareName(toSquare)<<std::endl;
+         //std::cout << Move::getSquareName(fromSquare) << "" << Move::getSquareName(toSquare)<<std::endl;
         //  if (board.isValidSquare(toSquare) && Move::isMoveLegal(board, fromSquare, toSquare))
         {
             Piece capturedPiece = board.getPiece(toSquare);
@@ -105,58 +109,60 @@ int perft(Chessboard &board, int depth, Color currentColor)
             }
 
             ///////laisser le castling juste avant l'autre bail
-            else if (Chessboard::enPADONEW != "-")
-            {
-                //if (Move::isEnPassantMove(board, fromSquare, toSquare))
+            else if (Chessboard::enPADONEW != "-" && board.getPiece(fromSquare) == PAWN  && caseEnPaW ==toSquare && board.getPiece(toSquare) == EMPTY)
+            {   std::cout << "ENPA W PERFT";
+
+                if (Move::isEnPassantMove(board, fromSquare, caseEnPaW))
                 {
-                    int caseEnPa = board.getSquare(board.getFile(Move::getSquareFromName(Chessboard::enPADONEW)), board.getRank(Move::getSquareFromName(Chessboard::enPADONEW)));   
                     std::cout << "ENPA W PERFT";
                     board.prettyPrint();
-                    board.movePiece(fromSquare, caseEnPa);
+                    board.movePiece(fromSquare, caseEnPaW);
                     std::cout << " from sq " << fromSquare << "\n";
-                    std::cout << " to sq " << caseEnPa << "\n";
-                    board.setPiece(caseEnPa - 8, EMPTY, EMPTY_COLOR);
+                    std::cout << " to sq " << caseEnPaW << "\n";
+                    board.setPiece(caseEnPaW - 8, EMPTY, EMPTY_COLOR);
                     board.prettyPrint();
                     if (!board.isKingInCheck(col))
                     {
                         solution += perft(board, depth - 1, (currentColor == WHITE) ? BLACK : WHITE);
                     }
-                    board.undoMove(fromSquare, caseEnPa, capturedPiece, capturedPieceColor);
-                    board.setPiece(caseEnPa - 8, PAWN, BLACK);
+                    board.undoMove(fromSquare, caseEnPaW, capturedPiece, capturedPieceColor);
+                    board.setPiece(caseEnPaW - 8, PAWN, BLACK);
                     board.prettyPrint();
+                    Chessboard::enPADONEW = "-";
+                    Chessboard::enPA = "-";
                 }
-                Chessboard::enPADONEW = "-";
-                Chessboard::enPA = "-"; // utilite et savoir si c'est bien place
+                // utilite et savoir si c'est bien place
             }
-            else if (Chessboard::enPADONEB != "-")
-            {
-                std::cout << " from sq " << fromSquare << "\n";
-                std::cout << " to sq " << toSquare << "\n";
 
-                //if (Move::isEnPassantMove(board, fromSquare, toSquare))
+            else if (Chessboard::enPADONEB != "-" && board.getPiece(fromSquare) == PAWN && caseEnPaB==toSquare && board.getPiece(toSquare)==EMPTY)
+            {
+                //std::cout << "ENPA B PERFT";
+                //std::cout << " from sq " << fromSquare << "\n";
+                //std::cout << " to sq " << caseEnPaB << "\n";
+                if (Move::isEnPassantMove(board, fromSquare, caseEnPaB) && toSquare==caseEnPaB)
                 {
-                    int caseEnPa = board.getSquare(board.getFile(Move::getSquareFromName(Chessboard::enPADONEB)), board.getRank(Move::getSquareFromName(Chessboard::enPADONEB)));   
-                    int enPaDiff = board.getFile(fromSquare)-board.getFile(caseEnPa);
+                    //int caseEnPa = board.getSquare(board.getFile(Move::getSquareFromName(Chessboard::enPADONEB)), board.getRank(Move::getSquareFromName(Chessboard::enPADONEB)));   
+                    int enPaDiff = board.getFile(fromSquare)-board.getFile(caseEnPaB);
                     std::cout << "ENPA B PERFT";
                     board.prettyPrint();
-                    board.movePiece(fromSquare, toSquare );
+                    board.movePiece(fromSquare, caseEnPaB );
                     std::cout << " from sq " << fromSquare << "\n";
-                    std::cout << " to sq " << caseEnPa << "\n";
+                    std::cout << " to sq " << caseEnPaB << "\n";
                     std::cout << "case en pa" << enPaDiff << "\n";
 
-
-                    board.setPiece(toSquare + 8 , EMPTY, EMPTY_COLOR);
+                    board.setPiece(caseEnPaB +8 , EMPTY, EMPTY_COLOR);
                     board.prettyPrint();
                     if (!board.isKingInCheck(col))
                     {
                         solution += perft(board, depth - 1, (currentColor == WHITE) ? BLACK : WHITE);
                     }
-                    board.undoMove(fromSquare, toSquare, capturedPiece, capturedPieceColor);
-                    board.setPiece(toSquare + 8 , PAWN, WHITE);
+                    board.undoMove(fromSquare, caseEnPaB, capturedPiece, capturedPieceColor);
+                    board.setPiece(caseEnPaB + 8 , PAWN, WHITE);
                     board.prettyPrint();
+                    Chessboard::enPADONEB = "-";
+                    Chessboard::enPA = "-";
                 }
-                Chessboard::enPADONEB = "-";
-                Chessboard::enPA = "-"; // utilite et savoir si c'est bien place
+                    // utilite et savoir si c'est bien place
             }
             /*{
                 if (Move::isEnPassantMove(board, fromSquare, toSquare))
