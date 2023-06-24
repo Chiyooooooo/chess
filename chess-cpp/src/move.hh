@@ -22,7 +22,6 @@ public:
 
     static std::vector<int> generateAllLegalMoves(const Chessboard &board, Color currentColor);
 
-    static std::string getSquareName(int square);
     static int getSquareFromName(const std::string &name);
 };
 

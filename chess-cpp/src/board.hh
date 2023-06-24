@@ -62,9 +62,13 @@ public:
     int getRank(int square) const;
     int getFile(int square) const;
     int getSquare(int file, int rank) const;
+    static std::string getSquareName(int square);
+
     void movePiece(int fromSquare, int toSquare);
     void undoMove(int fromSquare, int toSquare, Piece capturedPiece, Color capturedPieceColor);
     bool isKingInCheck(Color kingColor) const;
+    bool isRookInCheck(int rookSquare, Color kingColor) const;
+
     void prettyPrint() const;
 
 private:

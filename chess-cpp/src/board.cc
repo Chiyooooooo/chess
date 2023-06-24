@@ -254,6 +254,39 @@ void Chessboard::movePiece(int fromSquare, int toSquare)
     {
         castlingBK = false;
     }
+    /////cas du en passant 
+    int caseFin = toSquare;
+    int caseDebut = fromSquare;
+    int rankDiff = getRank(caseFin) - getRank(caseDebut);
+
+    if (getPiece(caseFin) == EMPTY)
+        {
+            int startRank = (color == WHITE) ? 1 : 6;
+            if (getRank(caseDebut) == startRank && std::abs(rankDiff) == 2)
+            {
+                int intermediateRank = startRank + (rankDiff / 2);
+                int intermediateSquare = getSquare(getFile(caseDebut), intermediateRank);
+                if (getPiece(intermediateSquare) == EMPTY)
+                {
+                    int leftNeighborSquare = caseFin - 1;
+                    int rightNeighborSquare = caseFin + 1;
+
+                    if (/*Chessboard::enPA =="-" &&*/ color == WHITE && ((getPiece(leftNeighborSquare) == PAWN && getColor(leftNeighborSquare) == BLACK) ||
+                                           (getPiece(rightNeighborSquare) == PAWN && getColor(rightNeighborSquare) == BLACK)))
+                    {
+                        Chessboard::enPA = getSquareName(caseFin - 8);
+                        std::cout << Chessboard::enPA << "nouveau enpa calcule BLANC\n";
+                    }
+                    else if (/*Chessboard::enPA =="-" &&*/ color == BLACK && ((getPiece(leftNeighborSquare) == PAWN && getColor(leftNeighborSquare) == WHITE) ||
+                                                (getPiece(rightNeighborSquare) == PAWN && getColor(rightNeighborSquare) == WHITE)))
+                    {
+                        Chessboard::enPA = getSquareName(caseFin + 8);
+                        std::cout << Chessboard::enPA << "nouveau enpa calcule  NOIR\n";
+                    }
+                }
+            }
+        }
+
     setPiece(toSquare, piece, color);
     setPiece(fromSquare, EMPTY, EMPTY_COLOR);
 }
@@ -289,6 +322,35 @@ bool Chessboard::isKingInCheck(Color kingColor) const
         }
     }
     return false;
+}
+bool Chessboard::isRookInCheck(int rookSquare, Color kingColor) const
+{
+if (getPiece(rookSquare) == ROOK && getColor(rookSquare) == kingColor){
+    
+    for (int square = 0; square < Size * Size; ++square)
+    {
+        Piece piece = getPiece(square);
+        Color color = getColor(square);
+
+        if (piece == EMPTY || color == kingColor)
+            continue;
+        if (isValidMove(square, rookSquare))
+        {
+            return true;
+        }
+    }}
+    return false;
+}
+
+std::string Chessboard::getSquareName(int square)
+{
+    int rank = square / Chessboard::Size;
+    int file = square % Chessboard::Size;
+
+    std::string name;
+    name += ('a' + file);
+    name += ('1' + rank);
+    return name;
 }
 
 void Chessboard::prettyPrint() const
